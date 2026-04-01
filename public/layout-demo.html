@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Layout Demo - Smart Steam</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="/images/pasted-1757553903533.webp">
+    <link rel="icon" type="image/webp" href="/images/pasted-1757553903533.webp">
+    <link rel="apple-touch-icon" href="/images/pasted-1757553903533.webp">
+    <link rel="shortcut icon" href="/images/pasted-1757553903533.webp">
+    <style>
+        /* Layout Demo Styles */
+        .layout-demo {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            padding: 2rem 0;
+        }
+
+        .layout-container {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        /* Left Side - Horizontal Layout */
+        .left-section {
+            background: white;
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .horizontal-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .horizontal-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 15px;
+            padding: 1.5rem;
+            color: white;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .horizontal-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            transform: translateX(-100%);
+            transition: transform 0.6s ease;
+        }
+
+        .horizontal-card:hover::before {
+            transform: translateX(100%);
+        }
+
+        .horizontal-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(102, 126, 234, 0.3);
+        }
+
+        .card-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .card-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .card-description {
+            font-size: 0.9rem;
+            opacity: 0.9;
+            line-height: 1.5;
+        }
+
+        /* Right Side - Vertical Layout */
+        .right-section {
+            background: white;
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            height: fit-content;
+        }
+
+        .vertical-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .vertical-item {
+            background: linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%);
+            border-radius: 12px;
+            padding: 1.2rem;
+            color: white;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .vertical-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            transform: translateY(-100%);
+            transition: transform 0.6s ease;
+        }
+
+        .vertical-item:hover::before {
+            transform: translateY(100%);
+        }
+
+        .vertical-item:hover {
+            transform: translateX(5px);
+            box-shadow: 0 10px 25px rgba(255, 107, 107, 0.3);
+        }
+
+        .item-header {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .item-icon {
+            font-size: 1.5rem;
+        }
+
+        .item-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+
+        .item-description {
+            font-size: 0.85rem;
+            opacity: 0.9;
+            line-height: 1.4;
+        }
+
+        .section-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            .layout-container {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+
+            .horizontal-grid {
+                grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            }
+        }
+
+        @media (max-width: 768px) {
+            .layout-container {
+                padding: 0 1rem;
+            }
+
+            .left-section,
+            .right-section {
+                padding: 1.5rem;
+            }
+
+            .horizontal-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .section-title {
+                font-size: 1.5rem;
+            }
+        }
+
+        /* Animation */
+        @keyframes slideInLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes slideInRight {
+            from {
+                opacity: 0;
+                transform: translateX(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .left-section {
+            animation: slideInLeft 0.8s ease-out;
+        }
+
+        .right-section {
+            animation: slideInRight 0.8s ease-out 0.2s both;
+        }
+
+        .horizontal-card {
+            animation: slideInLeft 0.6s ease-out;
+        }
+
+        .horizontal-card:nth-child(2) { animation-delay: 0.1s; }
+        .horizontal-card:nth-child(3) { animation-delay: 0.2s; }
+        .horizontal-card:nth-child(4) { animation-delay: 0.3s; }
+
+        .vertical-item {
+            animation: slideInRight 0.6s ease-out;
+        }
+
+        .vertical-item:nth-child(2) { animation-delay: 0.1s; }
+        .vertical-item:nth-child(3) { animation-delay: 0.2s; }
+        .vertical-item:nth-child(4) { animation-delay: 0.3s; }
+        .vertical-item:nth-child(5) { animation-delay: 0.4s; }
+    </style>
+    <link rel='stylesheet' href='/css/vi-font.css'>
+</head>
+<body>
+<!-- Layout Demo -->
+    <section class="layout-demo">
+        <div class="layout-container">
+            <!-- Left Section - Horizontal Layout -->
+            <div class="left-section">
+                <h2 class="section-title">Tin tức nổi bật</h2>
+                <div class="horizontal-grid">
+                    <div class="horizontal-card">
+                        <div class="card-icon">🚀</div>
+                        <div class="card-title">Công nghệ AI mới nhất</div>
+                        <div class="card-description">
+                            Khám phá những đột phá mới nhất trong lĩnh vực trí tuệ nhân tạo và ứng dụng thực tế.
+                        </div>
+                    </div>
+                    
+                    <div class="horizontal-card">
+                        <div class="card-icon">🤖</div>
+                        <div class="card-title">Robotics cho giáo dục</div>
+                        <div class="card-description">
+                            Cách robot giáo dục đang thay đổi phương pháp dạy học STEM trong thế kỷ 21.
+                        </div>
+                    </div>
+                    
+                    <div class="horizontal-card">
+                        <div class="card-icon">🎨</div>
+                        <div class="card-title">STEAM trong nghệ thuật</div>
+                        <div class="card-description">
+                            Kết hợp khoa học, công nghệ và nghệ thuật để tạo ra những tác phẩm độc đáo.
+                        </div>
+                    </div>
+                    
+                    <div class="horizontal-card">
+                        <div class="card-icon">🔬</div>
+                        <div class="card-title">Thí nghiệm khoa học</div>
+                        <div class="card-description">
+                            Hướng dẫn thực hiện các thí nghiệm khoa học an toàn và thú vị tại nhà.
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Section - Vertical Layout -->
+            <div class="right-section">
+                <h2 class="section-title">Danh mục sản phẩm</h2>
+                <div class="vertical-list">
+                    <div class="vertical-item">
+                        <div class="item-header">
+                            <div class="item-icon">💻</div>
+                            <div class="item-title">Lập trình</div>
+                        </div>
+                        <div class="item-description">
+                            Bộ kit học lập trình từ cơ bản đến nâng cao cho mọi lứa tuổi
+                        </div>
+                    </div>
+                    
+                    <div class="vertical-item">
+                        <div class="item-header">
+                            <div class="item-icon">🤖</div>
+                            <div class="item-title">Robotics</div>
+                        </div>
+                        <div class="item-description">
+                            Robot giáo dục thông minh với nhiều tính năng tương tác
+                        </div>
+                    </div>
+                    
+                    <div class="vertical-item">
+                        <div class="item-header">
+                            <div class="item-icon">🖨️</div>
+                            <div class="item-title">In 3D</div>
+                        </div>
+                        <div class="item-description">
+                            Máy in 3D và phụ kiện chất lượng cao cho sáng tạo
+                        </div>
+                    </div>
+                    
+                    <div class="vertical-item">
+                        <div class="item-header">
+                            <div class="item-icon">🔬</div>
+                            <div class="item-title">Khoa học</div>
+                        </div>
+                        <div class="item-description">
+                            Bộ thí nghiệm khoa học an toàn và thú vị cho trẻ em
+                        </div>
+                    </div>
+                    
+                    <div class="vertical-item">
+                        <div class="item-header">
+                            <div class="item-icon">⚡</div>
+                            <div class="item-title">Điện tử</div>
+                        </div>
+                        <div class="item-description">
+                            Kit điện tử và linh kiện chất lượng cho dự án DIY
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    
+<script src="js/main.js"></script>
+</body>
+</html> 

@@ -1,0 +1,107 @@
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://smartsteam.vn/sitemap.xml
+
+# Crawl-delay
+Crawl-delay: 1
+
+# Disallow admin and private pages
+Disallow: /admin/
+Disallow: /admin.html
+Disallow: /admin-login.html
+Disallow: /admin-*
+Disallow: /api/
+Disallow: /profile/
+Disallow: /login
+Disallow: /register
+Disallow: /cart
+Disallow: /checkout
+Disallow: /orders
+
+# Disallow temporary and cache files
+Disallow: /tmp/
+Disallow: /cache/
+Disallow: /.git/
+Disallow: /.env
+Disallow: /config/
+
+# Allow important pages
+Allow: /
+Allow: /products
+Allow: /products/
+Allow: /news
+Allow: /news/
+Allow: /tutorials
+Allow: /tutorials/
+Allow: /about
+Allow: /contact
+Allow: /courses
+Allow: /courses/
+
+# Allow static resources
+Allow: /css/
+Allow: /js/
+Allow: /images/
+Allow: /uploads/
+Allow: /assets/
+Allow: /includes/
+
+# Block specific file types that shouldn't be indexed
+Disallow: /*.json$
+Disallow: /*.xml$
+Disallow: /*.txt$
+Disallow: /*.log$
+Disallow: /*.sql$
+Disallow: /*.bak$
+
+# Block search and filter parameters (except specific ones)
+Disallow: /*?*
+Disallow: /*&*
+Disallow: /*search=*
+Disallow: /*filter=*
+Disallow: /*sort=*
+Disallow: /*page=*
+
+# Allow specific search functionality
+Allow: /search
+Allow: /products?category=*
+Allow: /tutorials?category=*
+
+# Block duplicate content
+Disallow: /*?utm_*
+Disallow: /*?fbclid=*
+Disallow: /*?gclid=*
+
+# Block unnecessary paths
+Disallow: /404
+Disallow: /500
+Disallow: /error
+
+# Special rules for different bots
+User-agent: Googlebot
+Allow: /
+Crawl-delay: 1
+
+User-agent: Bingbot
+Allow: /
+Crawl-delay: 2
+
+User-agent: facebookexternalhit
+Allow: /
+Crawl-delay: 1
+
+User-agent: Twitterbot
+Allow: /
+Crawl-delay: 1
+
+# Block aggressive crawlers
+User-agent: AhrefsBot
+Disallow: /
+
+User-agent: MJ12bot
+Disallow: /
+
+User-agent: DotBot
+Disallow: /

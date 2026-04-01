@@ -1,0 +1,54 @@
+{
+    "name": "Smart Steam - Giáo dục STEM/STEAM",
+    "short_name": "Smart Steam",
+    "description": "Nền tảng giáo dục STEM/STEAM hàng đầu Việt Nam. Robot Kit, máy in 3D, sản phẩm giáo dục chất lượng cao.",
+    "start_url": "/",
+    "display": "standalone",
+    "background_color": "#ffffff",
+    "theme_color": "#667eea",
+    "orientation": "portrait-primary",
+    "scope": "/",
+    "lang": "vi",
+    "dir": "ltr",
+    "categories": ["education", "technology", "shopping"],
+    "icons": [
+        {
+            "src": "images/favicon.ico",
+            "sizes": "16x16 32x32",
+            "type": "image/x-icon"
+        },
+        {
+            "src": "images/favicon.svg",
+            "sizes": "any",
+            "type": "image/svg+xml",
+            "purpose": "any maskable"
+        }
+    ],
+    "shortcuts": [
+        {
+            "name": "Sản phẩm",
+            "short_name": "Products",
+            "description": "Xem sản phẩm STEM/STEAM",
+            "url": "/products"
+        },
+        {
+            "name": "Tin tức",
+            "short_name": "News",
+            "description": "Đọc tin tức công nghệ",
+            "url": "/news"
+        },
+        {
+            "name": "Hướng dẫn",
+            "short_name": "Tutorials",
+            "description": "Học lập trình STEM/STEAM",
+            "url": "/tutorials"
+        }
+    ],
+    "related_applications": [
+        {
+            "platform": "webapp",
+            "url": "https://smartsteam.vn/site.webmanifest"
+        }
+    ],
+    "prefer_related_applications": false
+}

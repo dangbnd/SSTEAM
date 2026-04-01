@@ -1,0 +1,720 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tin t?c - Smart Steam</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="/images/pasted-1757553903533.webp">
+    <link rel="icon" type="image/webp" href="/images/pasted-1757553903533.webp">
+    <link rel="apple-touch-icon" href="/images/pasted-1757553903533.webp">
+    <link rel="shortcut icon" href="/images/pasted-1757553903533.webp">
+    <style>
+        /* News Layout Styles */
+        .news-layout {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            padding: 2rem 0;
+        }
+
+        .news-container {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        /* Left Column - Technology News */
+        .tech-news {
+            background: white;
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .section-header {
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .section-title {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #1a202c;
+            margin: 0;
+        }
+
+        /* Main Article */
+        .main-article {
+            margin-bottom: 2rem;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .main-article:hover {
+            transform: translateY(-5px);
+        }
+
+        .article-image {
+            width: 100%;
+            height: 300px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Scratch Article Image */
+        .image-left {
+            width: 50%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .image-right {
+            width: 50%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: rgba(255, 255, 255, 0.05);
+            position: relative;
+        }
+
+        .laptop-section {
+            text-align: center;
+            color: white;
+        }
+
+        .program-block {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+        }
+
+        .code-symbols {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #ffd700;
+        }
+
+        .scratch-logo {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #ff6b35;
+            margin-bottom: 0.5rem;
+        }
+
+        .scratch-words {
+            display: flex;
+            flex-direction: column;
+            gap: 0.2rem;
+            margin-bottom: 1rem;
+        }
+
+        .scratch-words span {
+            font-size: 0.8rem;
+            color: white;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+        }
+
+        .cat-character {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .hands {
+            font-size: 1.5rem;
+        }
+
+        .article-content {
+            padding: 1.5rem;
+        }
+
+        .article-title {
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: #1a202c;
+            margin-bottom: 1rem;
+            line-height: 1.4;
+        }
+
+        .article-excerpt {
+            color: #4a5568;
+            line-height: 1.6;
+            margin-bottom: 1rem;
+        }
+
+        .read-more-btn {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+            float: right;
+        }
+
+        .read-more-btn:hover {
+            background: #5a67d8;
+            transform: scale(1.05);
+        }
+
+        /* Second Article */
+        .second-article {
+            margin-bottom: 2rem;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .second-article:hover {
+            transform: translateY(-5px);
+        }
+
+        .second-article .article-image {
+            height: 200px;
+            background: linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%);
+        }
+
+        /* World Map */
+        .world-map {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .map-continents {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .continent {
+            font-size: 0.6rem;
+            color: rgba(255, 255, 255, 0.7);
+            font-weight: bold;
+            text-align: center;
+            padding: 0.2rem 0.4rem;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 4px;
+        }
+
+        .infection-dots {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+        }
+
+        .dot {
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            background: #ef4444;
+            border-radius: 50%;
+            box-shadow: 0 0 4px rgba(239, 68, 68, 0.6);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.2); opacity: 0.7; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        /* More News List */
+        .more-news {
+            background: #f7fafc;
+            border-radius: 15px;
+            padding: 1.5rem;
+        }
+
+        .more-news h3 {
+            color: #2d3748;
+            margin-bottom: 1rem;
+            font-size: 1.2rem;
+        }
+
+        .news-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .news-list li {
+            padding: 0.5rem 0;
+            border-bottom: 1px solid #e2e8f0;
+            color: #4a5568;
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+
+        .news-list li:last-child {
+            border-bottom: none;
+        }
+
+        .news-list li::before {
+            content: '?';
+            color: #667eea;
+            font-weight: bold;
+            margin-right: 0.5rem;
+        }
+
+        .view-more {
+            text-align: center;
+            margin-top: 1rem;
+        }
+
+        .view-more a {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .view-more a:hover {
+            text-decoration: underline;
+        }
+
+        /* Right Column - Education News */
+        .edu-news {
+            background: white;
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            height: fit-content;
+        }
+
+        .edu-news .section-header {
+            border-bottom: 3px solid #48bb78;
+        }
+
+        .edu-news .section-title {
+            color: #2d3748;
+        }
+
+        /* Education News Items */
+        .edu-news-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .edu-news-item {
+            display: flex;
+            gap: 1rem;
+            padding: 1rem;
+            border-radius: 10px;
+            transition: all 0.3s ease;
+            border: 1px solid transparent;
+        }
+
+        .edu-news-item:hover {
+            background: #f7fafc;
+            border-color: #48bb78;
+            transform: translateX(5px);
+        }
+
+        .edu-news-image {
+            width: 80px;
+            height: 60px;
+            border-radius: 8px;
+            background: linear-gradient(135deg, #48bb78 0%, #38a169 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Education News Images */
+        .robot-head {
+            font-size: 1.5rem;
+            z-index: 2;
+        }
+
+        .circuit-pattern {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(45deg, transparent 30%, rgba(255, 255, 255, 0.1) 50%, transparent 70%);
+            animation: circuit 3s infinite;
+        }
+
+        @keyframes circuit {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+
+        .industry-robot {
+            font-size: 1.5rem;
+            z-index: 2;
+        }
+
+        .industry-text {
+            position: absolute;
+            bottom: 2px;
+            left: 2px;
+            font-size: 0.5rem;
+            color: white;
+            font-weight: bold;
+            background: rgba(0, 0, 0, 0.5);
+            padding: 1px 3px;
+            border-radius: 2px;
+        }
+
+        .factory-setting {
+            font-size: 1.5rem;
+            z-index: 2;
+        }
+
+        .tech-education-box {
+            position: absolute;
+            bottom: 2px;
+            left: 2px;
+            background: rgba(59, 130, 246, 0.8);
+            color: white;
+            font-size: 0.4rem;
+            font-weight: bold;
+            padding: 2px 4px;
+            border-radius: 3px;
+            text-align: center;
+            line-height: 1.2;
+        }
+
+        .students-group {
+            font-size: 1.5rem;
+            z-index: 2;
+        }
+
+        .stem-club-banner {
+            position: absolute;
+            bottom: 2px;
+            left: 2px;
+            background: rgba(16, 185, 129, 0.8);
+            color: white;
+            font-size: 0.4rem;
+            font-weight: bold;
+            padding: 2px 4px;
+            border-radius: 3px;
+        }
+
+        .classroom-setting {
+            font-size: 1.5rem;
+            z-index: 2;
+        }
+
+        .stem-education-banner {
+            position: absolute;
+            bottom: 2px;
+            left: 2px;
+            background: rgba(107, 114, 128, 0.8);
+            color: white;
+            font-size: 0.4rem;
+            font-weight: bold;
+            padding: 2px 4px;
+            border-radius: 3px;
+        }
+
+        .bits-logo {
+            font-size: 0.8rem;
+            font-weight: bold;
+            color: white;
+            background: rgba(0, 0, 0, 0.3);
+            padding: 2px 6px;
+            border-radius: 4px;
+        }
+
+        .edu-news-content {
+            flex: 1;
+        }
+
+        .edu-news-title {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: #2d3748;
+            line-height: 1.4;
+            margin: 0;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            .news-container {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .news-container {
+                padding: 0 1rem;
+            }
+
+            .tech-news,
+            .edu-news {
+                padding: 1.5rem;
+            }
+
+            .section-title {
+                font-size: 1.5rem;
+            }
+
+            .article-title {
+                font-size: 1.2rem;
+            }
+
+            .edu-news-item {
+                flex-direction: column;
+            }
+
+            .edu-news-image {
+                width: 100%;
+                height: 120px;
+            }
+        }
+
+        /* Animation */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .tech-news {
+            animation: fadeInUp 0.8s ease-out;
+        }
+
+        .edu-news {
+            animation: fadeInUp 0.8s ease-out 0.2s both;
+        }
+
+        .main-article,
+        .second-article {
+            animation: fadeInUp 0.6s ease-out;
+        }
+
+        .second-article {
+            animation-delay: 0.1s;
+        }
+
+        .edu-news-item {
+            animation: fadeInUp 0.6s ease-out;
+        }
+
+        .edu-news-item:nth-child(2) { animation-delay: 0.1s; }
+        .edu-news-item:nth-child(3) { animation-delay: 0.2s; }
+        .edu-news-item:nth-child(4) { animation-delay: 0.3s; }
+        .edu-news-item:nth-child(5) { animation-delay: 0.4s; }
+        .edu-news-item:nth-child(6) { animation-delay: 0.5s; }
+    </style>
+    <link rel='stylesheet' href='/css/vi-font.css'>
+</head>
+<body>
+<!-- News Layout -->
+    <section class="news-layout">
+        <div class="news-container">
+            <!-- Left Column - Technology News -->
+            <div class="tech-news">
+                <div class="section-header">
+                    <h2 class="section-title">TIN T?C C?NG NGH?</h2>
+                </div>
+
+                <!-- Main Article -->
+                <article class="main-article">
+                    <div class="article-image">
+                        <div class="image-left">
+                            <div class="laptop-section">
+                                <div class="program-block">PROGRAM</div>
+                                <div class="code-symbols">&lt;/&gt;</div>
+                            </div>
+                        </div>
+                        <div class="image-right">
+                            <div class="scratch-logo">SCRATCH</div>
+                            <div class="scratch-words">
+                                <span>aprender</span>
+                                <span>programar</span>
+                                <span>compartir</span>
+                                <span>crear</span>
+                            </div>
+                            <div class="cat-character">??</div>
+                            <div class="hands">??</div>
+                        </div>
+                    </div>
+                    <div class="article-content">
+                        <h3 class="article-title">L?p tr?nh scratch l? g?? T?m hi?u v? ng?n ng? l?p tr?nh scratch</h3>
+                        <p class="article-excerpt">
+                            L?p tr?nh Scratch du?c bi?t d?n l? m?t ng?n ng? l?p tr?nh tr?c quan d?a tr?n c?c kh?i c?p cao du?c nh?m m?c ti?u ch? y?u d?n tr? em ? d? tu?i t? 8-16 tu?i. Scratch gi?p tr? em ph?t tri?n tu duy logic v? s?ng t?o th?ng qua vi?c t?o ra c?c d? ?n tuong t?c nhu game, animation v? c?u chuy?n.
+                        </p>
+                        <button class="read-more-btn">+</button>
+                    </div>
+                </article>
+
+                <!-- Second Article -->
+                <article class="second-article">
+                    <div class="article-image">
+                        <div class="world-map">
+                            <div class="map-continents">
+                                <div class="continent north-america">NORTH AMERICA</div>
+                                <div class="continent south-america">SOUTH AMERICA</div>
+                                <div class="continent europe">EUROPE</div>
+                                <div class="continent africa">AFRICA</div>
+                                <div class="continent asia">ASIA</div>
+                                <div class="continent australia">AUSTRALIA</div>
+                            </div>
+                            <div class="infection-dots">
+                                <div class="dot" style="top: 20%; left: 15%;"></div>
+                                <div class="dot" style="top: 25%; left: 25%;"></div>
+                                <div class="dot" style="top: 30%; left: 35%;"></div>
+                                <div class="dot" style="top: 35%; left: 45%;"></div>
+                                <div class="dot" style="top: 40%; left: 55%;"></div>
+                                <div class="dot" style="top: 45%; left: 65%;"></div>
+                                <div class="dot" style="top: 50%; left: 75%;"></div>
+                                <div class="dot" style="top: 55%; left: 85%;"></div>
+                                <div class="dot" style="top: 60%; left: 20%;"></div>
+                                <div class="dot" style="top: 65%; left: 30%;"></div>
+                                <div class="dot" style="top: 70%; left: 40%;"></div>
+                                <div class="dot" style="top: 75%; left: 50%;"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="article-content">
+                        <h3 class="article-title">C?p nh?t t?nh h?nh nhi?m Covid-19 tr?n th? gi?i</h3>
+                        <p class="article-excerpt">
+                            Trang web c?p nh?t li?n t?c v? ch?nh x?c v? s? ca nhi?m virus tr?n to?n th? gi?i, m?i ngu?i c? th? truy c?p theo du?ng link: https://www.worldometers.info/coronavirus/
+                        </p>
+                        <button class="read-more-btn">+</button>
+                    </div>
+                </article>
+
+                <!-- More News -->
+                <div class="more-news">
+                    <h3>Xem th?m</h3>
+                    <ul class="news-list">
+                        <li>SEA Games 30 s? d?ng xe bus kh?ng ngu?i l?i dua d?n v?n d?ng vi?n</li>
+                        <li>Cu?c thi v? robot STEM l?n nh?t th? gi?i FIRST Global DXB Challenge di?n ra t?i Dubai</li>
+                        <li>Make X 2019 d? t?m ra du?c c?c nh? s?ng ch? tr? Vi?t Nam tham d? v?ng chung k?t Make X robotics Competition th? gi?i</li>
+                        <li>Tru?ng d?i h?c tr? tu? nh?n t?o (AI) d?u ti?n tr?n th? gi?i</li>
+                    </ul>
+                    <div class="view-more">
+                        <a href="#">Xem th?m</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Column - Education News -->
+            <div class="edu-news">
+                <div class="section-header">
+                    <h2 class="section-title">TIN T?C GI?O D?C</h2>
+                </div>
+
+                <div class="edu-news-list">
+                    <div class="edu-news-item">
+                        <div class="edu-news-image">
+                            <div class="robot-head">??</div>
+                            <div class="circuit-pattern"></div>
+                        </div>
+                        <div class="edu-news-content">
+                            <h4 class="edu-news-title">C?ch m?ng c?ng nghi?p 4.0 | L?i ?ch v? h?n ch?</h4>
+                        </div>
+                    </div>
+
+                    <div class="edu-news-item">
+                        <div class="edu-news-image">
+                            <div class="industry-robot">??</div>
+                            <div class="industry-text">INDUSTRY 4.0</div>
+                        </div>
+                        <div class="edu-news-content">
+                            <h4 class="edu-news-title">C?ng ngh? 4.0? ?ng d?ng c?ng ngh? 4.0 trong th?i d?i 4.0 hi?n nay</h4>
+                        </div>
+                    </div>
+
+                    <div class="edu-news-item">
+                        <div class="edu-news-image">
+                            <div class="factory-setting">??</div>
+                            <div class="tech-education-box">
+                                <div>C?NG NGH? 4.0</div>
+                                <div>TRONG GI?O D?C</div>
+                            </div>
+                        </div>
+                        <div class="edu-news-content">
+                            <h4 class="edu-news-title">T?c d?ng c?a c?ng ngh? 4.0 trong gi?o d?c</h4>
+                        </div>
+                    </div>
+
+                    <div class="edu-news-item">
+                        <div class="edu-news-image">
+                            <div class="students-group">??</div>
+                            <div class="stem-club-banner">C?U L?C B? STEM</div>
+                        </div>
+                        <div class="edu-news-content">
+                            <h4 class="edu-news-title">Chi?n lu?c x?y d?ng v? duy tr? c?c c?u l?c b? STEM</h4>
+                        </div>
+                    </div>
+
+                    <div class="edu-news-item">
+                        <div class="edu-news-image">
+                            <div class="classroom-setting">?????</div>
+                            <div class="stem-education-banner">GI?O D?C STEM</div>
+                        </div>
+                        <div class="edu-news-content">
+                            <h4 class="edu-news-title">Nhu th? n?o l? m?t chuong tr?nh STEM c? ch?t lu?ng?</h4>
+                        </div>
+                    </div>
+
+                    <div class="edu-news-item">
+                        <div class="edu-news-image">
+                            <div class="bits-logo">Bits</div>
+                        </div>
+                        <div class="edu-news-content">
+                            <h4 class="edu-news-title">M? h?nh gi?o d?c STEM l? g?? M? h?nh d?y</h4>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    
+<script src="js/main.js"></script>
+</body>
+</html> 

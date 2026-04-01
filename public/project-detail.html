@@ -1,0 +1,611 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chi tiết dự án - Smart Steam</title>
+    <meta name="description" content="Chi tiết dự án STEAM - Smart Steam">
+    <meta name="keywords" content="dự án STEAM, giáo dục, công nghệ">
+    <link rel="canonical" href="">
+    <meta property="og:title" content="Chi tiết dự án - Smart Steam">
+    <meta property="og:description" content="Chi tiết dự án STEAM - Smart Steam">
+    <meta property="og:image" content="">
+    <link rel="stylesheet" href="/css/shared/tokens.css">
+    <link rel="stylesheet" href="/css/shared/base.css">
+    <link rel="stylesheet" href="/css/shared/container.css">
+    <link rel="stylesheet" href="/css/detail/detail-shell.css">
+    <link rel="stylesheet" href="/css/detail/sidebar.css">
+    
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-Q2ZMPLR4K7"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-Q2ZMPLR4K7');
+    </script>
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="/images/pasted-1757553903533.webp">
+    <link rel="icon" type="image/webp" href="/images/pasted-1757553903533.webp">
+    <link rel="apple-touch-icon" href="/images/pasted-1757553903533.webp">
+    <link rel="shortcut icon" href="/images/pasted-1757553903533.webp">
+    <link rel='stylesheet' href='/css/vi-font.css'>
+</head>
+<body class="project-detail-page">
+<!-- Project Content Section -->
+    <section class="project-content">
+        <div class="container">
+            <div class="project-content-wrapper">
+                <!-- Project Sidebar -->
+                <aside class="project-sidebar">
+                    <div class="project-sidebar-inner">
+                        <div class="sidebar-section" id="toc-section" style="display:none">
+                            <h3>Nội dung dự án</h3>
+                            <div id="toc" class="table-of-contents"></div>
+                        </div>
+                        
+                        <div class="sidebar-section">
+                            <h3>Sản phẩm gợi ý</h3>
+                            <div id="suggestedProducts" class="suggested-products">
+                                <!-- Suggested products will be loaded -->
+                            </div>
+                        </div>
+                        
+                        <div class="sidebar-section">
+                            <h3>Tin tức gợi ý</h3>
+                            <div id="suggestedNews" class="suggested-news">
+                                <!-- Suggested news will be loaded -->
+                            </div>
+                        </div>
+                        
+                        <div class="sidebar-section">
+                            <h3>Dự án liên quan</h3>
+                            <div id="relatedProjects" class="related-projects">
+                                <!-- Related projects will be loaded -->
+                            </div>
+                        </div>
+                    </div>
+                </aside>
+                
+                <article id="projectDetail" class="project-article">
+                    <!-- Project Header -->
+                    <div class="project-header">
+                        <h1 id="pTitle" class="project-title">Tên dự án</h1>
+                        <div class="project-meta">
+                            <div class="project-meta-item">
+                                <span class="meta-icon">👤</span>
+                                <span id="pAuthor">Tác giả</span>
+                            </div>
+                            <div class="project-meta-item">
+                                <span class="meta-icon">👁️</span>
+                                <span id="pViews">Lượt xem</span>
+                            </div>
+                            <div class="project-meta-item">
+                                <span class="meta-icon">⏱️</span>
+                                <span id="pDuration">Thời lượng</span>
+                            </div>
+                            <div class="project-meta-item">
+                                <span class="meta-icon">📅</span>
+                                <span id="pDate">Ngày tạo</span>
+                            </div>
+                        </div>
+                        <div id="pShortDescriptionBlock" class="project-description">
+                            <p id="pShortDescription">Mô tả ngắn về dự án...</p>
+                        </div>
+                    </div>
+                    
+                    <div id="pContent" class="editor-content"></div>
+                    <div id="pTags" class="project-tags" style="display:none"></div>
+                </article>
+            </div>
+        </div>
+    </section>
+
+    
+<script src="/js/main.js"></script>
+    <script>
+        function getSlug() {
+            const parts = window.location.pathname.split('/');
+            return decodeURIComponent(parts[parts.length - 1]);
+        }
+
+        function getFirstImageFromHtml(html) {
+            try {
+                if (!html || typeof html !== 'string') return '';
+                const wrapper = document.createElement('div');
+                wrapper.innerHTML = html;
+                const img = wrapper.querySelector('img[src]');
+                return img ? (img.getAttribute('src') || '').trim() : '';
+            } catch (_) {
+                return '';
+            }
+        }
+
+        function normalizeImageUrl(url, fallback) {
+            try {
+                if (!url || typeof url !== 'string') return fallback || '';
+                let value = url.trim();
+                if (!value) return fallback || '';
+
+                if (value.startsWith('//')) value = 'https:' + value;
+                if (!/^https?:\/\//i.test(value) && !value.startsWith('/')) {
+                    value = '/' + value.replace(/^\.?\//, '');
+                }
+                if (/^(uploads\/|public\/uploads\/)/i.test(value)) {
+                    value = '/' + value.replace(/^\//, '');
+                }
+                return value;
+            } catch (_) {
+                return fallback || '';
+            }
+        }
+
+                function toNumber(value) {
+            if (typeof value === 'number') return Number.isFinite(value) ? value : 0;
+            if (typeof value !== 'string') return 0;
+
+            const text = value.trim();
+            if (!text) return 0;
+
+            const cleaned = text.replace(/[^\d,.-]/g, '');
+            if (!cleaned) return 0;
+
+            let normalized = cleaned;
+            const hasComma = normalized.indexOf(',') >= 0;
+            const hasDot = normalized.indexOf('.') >= 0;
+
+            if (hasComma && hasDot) {
+                const lastComma = normalized.lastIndexOf(',');
+                const lastDot = normalized.lastIndexOf('.');
+                const decimalSep = lastComma > lastDot ? ',' : '.';
+                const thousandSep = decimalSep === ',' ? '.' : ',';
+                normalized = normalized.split(thousandSep).join('');
+                if (decimalSep === ',') normalized = normalized.replace(',', '.');
+            } else if (hasComma) {
+                normalized = /^-?\d{1,3}(,\d{3})+$/.test(normalized)
+                    ? normalized.replace(/,/g, '')
+                    : normalized.replace(',', '.');
+            } else if (hasDot) {
+                normalized = /^-?\d{1,3}(\.\d{3})+$/.test(normalized)
+                    ? normalized.replace(/\./g, '')
+                    : normalized;
+            }
+
+            const parsed = Number(normalized);
+            return Number.isFinite(parsed) ? parsed : 0;
+        }
+
+        function formatVnd(value) {
+            const num = toNumber(value);
+            return num > 0 ? num.toLocaleString('vi-VN') + String.fromCharCode(273) : '';
+        }
+
+        function getProductThumbnail(product) {
+            const fallback = 'https://images.unsplash.com/photo-1504711434969-e33886168f5c?w=120&h=80&fit=crop';
+            const thumb =
+                product?.thumbnail ||
+                product?.image ||
+                product?.coverImage ||
+                product?.featuredImage ||
+                (Array.isArray(product?.images) ? product.images[0] : '') ||
+                getFirstImageFromHtml(product?.description || product?.content || product?.body || '');
+
+            return normalizeImageUrl(thumb, fallback);
+        }
+
+                function getProductPricing(product) {
+            const currentCandidates = [
+                product?.price,
+                product?.salePrice,
+                product?.currentPrice,
+                product?.finalPrice,
+                product?.sale_price,
+                product?.current_price,
+                product?.final_price
+            ];
+            const current = currentCandidates.map(toNumber).find(v => v > 0) || 0;
+
+            const originalCandidates = [
+                product?.originalPrice,
+                product?.oldPrice,
+                product?.compareAtPrice,
+                product?.listPrice,
+                product?.priceBeforeDiscount,
+                product?.regularPrice,
+                product?.basePrice,
+                product?.original_price,
+                product?.old_price,
+                product?.compare_price,
+                product?.list_price,
+                product?.regular_price,
+                product?.base_price
+            ];
+            let original = originalCandidates.map(toNumber).find(v => v > 0) || 0;
+
+            let discount = toNumber(
+                product?.discountPercent ??
+                product?.discount ??
+                product?.discountRate ??
+                product?.discount_percent ??
+                product?.discount_percentage ??
+                product?.saleOff
+            );
+
+            if (discount > 0 && discount < 1) {
+                discount = Math.round(discount * 100);
+            }
+
+            if ((!discount || discount <= 0) && original > current && current > 0) {
+                discount = Math.round(((original - current) / original) * 100);
+            }
+
+            if ((!original || original <= 0) && current > 0 && discount > 0 && discount < 100) {
+                original = Math.round(current / (1 - discount / 100));
+            }
+
+            if (!(original > current)) {
+                original = 0;
+            }
+
+            return {
+                current,
+                original,
+                discount: discount > 0 ? Math.min(discount, 99) : 0
+            };
+        }
+
+        function getNewsThumbnail(article) {
+            const fallback = 'https://images.unsplash.com/photo-1504711434969-e33886168f5c?w=120&h=80&fit=crop';
+            const thumb =
+                article?.thumbnail ||
+                article?.image ||
+                article?.coverImage ||
+                article?.featuredImage ||
+                (Array.isArray(article?.images) ? article.images[0] : '') ||
+                getFirstImageFromHtml(article?.content || article?.description || article?.body || '');
+            return normalizeImageUrl(thumb, fallback);
+        }
+
+        function getProjectThumbnail(project) {
+            const fallback = 'https://images.unsplash.com/photo-1504711434969-e33886168f5c?w=120&h=80&fit=crop';
+            const thumb =
+                project?.thumbnail ||
+                project?.image ||
+                project?.coverImage ||
+                project?.featuredImage ||
+                (Array.isArray(project?.images) ? project.images[0] : '') ||
+                getFirstImageFromHtml(project?.content || project?.description || project?.body || project?.shortDescription || '');
+            return normalizeImageUrl(thumb, fallback);
+        }
+        async function loadProject() {
+            try {
+                console.log('🚀 Starting to load project...');
+                const slug = getSlug();
+                console.log('📍 Project slug:', slug);
+                
+                const res = await fetch(`/api/projects/slug/${encodeURIComponent(slug)}`);
+                console.log('📡 API Response status:', res.status, res.statusText);
+                
+                if (!res.ok) {
+                    console.error('❌ API request failed:', res.status, res.statusText);
+                    throw new Error('Not found');
+                }
+                
+                const p = await res.json();
+                console.log('📦 Project data:', p);
+                console.log('📊 Full project object:', JSON.stringify(p, null, 2));
+
+                // Views increment removed to avoid 404 error
+
+                // Update page title
+                document.title = p.name + ' - Smart Steam';
+                
+                // Update project header
+                document.getElementById('pTitle').textContent = p.name || 'Tên dự án';
+                document.getElementById('pAuthor').textContent = p.author || 'Smart Steam Team';
+                document.getElementById('pViews').textContent = (p.views || 0).toLocaleString('vi-VN') + ' lượt xem';
+                document.getElementById('pDuration').textContent = p.duration || 'Không xác định';
+                document.getElementById('pDate').textContent = p.createdAt ? new Date(p.createdAt).toLocaleDateString('vi-VN') : 'Không xác định';
+                const shortDescriptionText = typeof p.shortDescription === 'string' ? p.shortDescription.trim() : '';
+                const shortDescriptionElement = document.getElementById('pShortDescription');
+                const shortDescriptionBlock = document.getElementById('pShortDescriptionBlock');
+                if (shortDescriptionElement && shortDescriptionBlock) {
+                    if (shortDescriptionText) {
+                        shortDescriptionElement.textContent = shortDescriptionText;
+                        shortDescriptionBlock.style.display = '';
+                    } else {
+                        shortDescriptionElement.textContent = '';
+                        shortDescriptionBlock.style.display = 'none';
+                    }
+                }
+                
+                // Update content
+                document.getElementById('pContent').innerHTML = p.description || '<p>Nội dung dự án đang được cập nhật...</p>';
+                
+                // Load tags if available
+                if (p.tags && Array.isArray(p.tags) && p.tags.length > 0) {
+                    const tagsContainer = document.getElementById('pTags');
+                    tagsContainer.innerHTML = p.tags.map(tag => 
+                        `<span class="tag">${tag}</span>`
+                    ).join('');
+                    tagsContainer.style.display = 'block';
+                }
+                
+                // Update SEO meta tags
+                if (p.seo) {
+                    if (p.seo.title) document.title = p.seo.title;
+                    if (p.seo.description) {
+                        const metaDesc = document.querySelector('meta[name="description"]');
+                        if (metaDesc) metaDesc.setAttribute('content', p.seo.description);
+                    }
+                    if (p.seo.keywords && Array.isArray(p.seo.keywords)) {
+                        const metaKeywords = document.querySelector('meta[name="keywords"]');
+                        if (metaKeywords) metaKeywords.setAttribute('content', p.seo.keywords.join(', '));
+                    }
+                    if (p.seo.canonical) {
+                        const canonical = document.querySelector('link[rel="canonical"]');
+                        if (canonical) canonical.setAttribute('href', p.seo.canonical);
+                    }
+                    if (p.seo.ogTitle) {
+                        const ogTitle = document.querySelector('meta[property="og:title"]');
+                        if (ogTitle) ogTitle.setAttribute('content', p.seo.ogTitle);
+                    }
+                    if (p.seo.ogDescription) {
+                        const ogDesc = document.querySelector('meta[property="og:description"]');
+                        if (ogDesc) ogDesc.setAttribute('content', p.seo.ogDescription);
+                    }
+                    if (p.seo.ogImage) {
+                        const ogImage = document.querySelector('meta[property="og:image"]');
+                        if (ogImage) ogImage.setAttribute('content', p.seo.ogImage);
+                    }
+                }
+                
+                // Log project info for debugging
+                console.log('📊 Project Info:');
+                console.log('- Name:', p.name);
+                console.log('- Category:', p.category);
+                console.log('- Level:', p.level);
+                console.log('- Duration:', p.duration);
+                console.log('- Featured:', p.featured);
+                console.log('- Tags:', p.tags);
+                console.log('- SEO:', p.seo);
+                
+                // Generate table of contents
+                generateTableOfContents();
+                
+                // Load related content
+                await Promise.all([
+                    loadSuggestedProducts(),
+                    loadSuggestedNews(),
+                    loadRelatedProjects()
+                ]);
+                
+                console.log('✅ Project loaded successfully');
+                
+            } catch (error) {
+                console.error('❌ Error loading project:', error);
+                document.getElementById('pContent').innerHTML = '<p>Không thể tải nội dung dự án. Vui lòng thử lại sau.</p>';
+            }
+        }
+        
+        function generateTableOfContents() {
+            const content = document.getElementById('pContent');
+            const headings = content.querySelectorAll('h1, h2, h3, h4, h5, h6');
+            const toc = document.getElementById('toc');
+            
+            if (headings.length === 0) {
+                toc.innerHTML = '<p>Không có mục lục</p>';
+                return;
+            }
+            
+            const tocList = document.createElement('ul');
+            tocList.style.cssText = 'list-style: none; padding: 0; margin: 0;';
+            
+            headings.forEach((heading, index) => {
+                const id = `heading-${index}`;
+                heading.id = id;
+                
+                const level = parseInt(heading.tagName.charAt(1));
+                const indent = (level - 1) * 20;
+                
+                const li = document.createElement('li');
+                li.style.cssText = `margin-bottom: 0.5rem; padding-left: ${indent}px;`;
+                
+                const a = document.createElement('a');
+                a.href = `#${id}`;
+                a.textContent = heading.textContent;
+                a.style.cssText = `
+                    color: #6b7280;
+                    text-decoration: none;
+                    font-size: 0.875rem;
+                    line-height: 1.4;
+                    display: block;
+                    padding: 0.25rem 0.5rem;
+                    border-radius: 4px;
+                    transition: 0.2s;
+                `;
+                
+                a.addEventListener('mouseenter', function() {
+                    this.style.background = '#f3f4f6';
+                    this.style.color = '#1f2937';
+                });
+                
+                a.addEventListener('mouseleave', function() {
+                    this.style.background = 'transparent';
+                    this.style.color = '#6b7280';
+                });
+                
+                li.appendChild(a);
+                tocList.appendChild(li);
+            });
+            
+            toc.innerHTML = '';
+            toc.appendChild(tocList);
+        }
+        
+        async function loadSuggestedProducts() {
+            try {
+                console.log('??? Loading suggested products...');
+                const res = await fetch(`/api/products?limit=4`);
+                if (!res.ok) return;
+
+                const products = await res.json();
+                console.log('??? Suggested products loaded:', products);
+                const container = document.getElementById('suggestedProducts');
+
+                if (!products || products.length === 0) {
+                    container.innerHTML = '<p>Kh�ng c� s?n ph?m g?i �</p>';
+                    return;
+                }
+
+                container.innerHTML = products.map(product => {
+                    const pricing = getProductPricing(product);
+                    const currentPriceText = pricing.current > 0 ? formatVnd(pricing.current) : 'Li�n h?';
+                    const originalPriceHtml = pricing.original > 0
+                        ? `<span class="product-old-price">${formatVnd(pricing.original)}</span>`
+                        : '';
+                    const discountBadgeHtml = pricing.discount > 0
+                        ? `<span class="suggested-discount-badge">-${pricing.discount}%</span>`
+                        : '';
+
+                    return `
+                        <a href="/${product.slug || product._id}" class="suggested-product-item">
+                            <div class="suggested-product-thumb-wrap">
+                                <img src="${getProductThumbnail(product)}"
+                                     alt="${product.name}" class="suggested-product-thumbnail">
+                                ${discountBadgeHtml}
+                            </div>
+                            <div class="suggested-product-info">
+                                <h4>${product.name}</h4>
+                                <div class="suggested-product-prices">
+                                    <span class="product-price">${currentPriceText}</span>
+                                    ${originalPriceHtml}
+                                </div>
+                            </div>
+                        </a>
+                    `;
+                }).join('');
+
+            } catch (e) {
+                console.error('Error loading suggested products:', e);
+            }
+        }
+        async function loadSuggestedNews() {
+            try {
+                console.log('?? Loading suggested news...');
+                const res = await fetch(`/api/news?limit=3`);
+                if (!res.ok) return;
+
+                const news = await res.json();
+                console.log('?? Suggested news loaded:', news);
+                const container = document.getElementById('suggestedNews');
+
+                if (!news || news.length === 0) {
+                    container.innerHTML = '<p>Kh�ng c� tin t?c g?i �</p>';
+                    return;
+                }
+
+                container.innerHTML = news.map(article => `
+                    <a href="/news/${article.slug || article._id}" class="suggested-news-item">
+                        <img src="${getNewsThumbnail(article)}"
+                             alt="${article.title}" class="suggested-news-image">
+                        <h4 class="suggested-news-title">${article.title}</h4>
+                    </a>
+                `).join('');
+
+            } catch (e) {
+                console.error('Error loading suggested news:', e);
+            }
+        }
+        async function loadRelatedProjects() {
+            try {
+                const currentSlug = getSlug();
+                const res = await fetch(`/api/projects?limit=4`);
+                if (!res.ok) return;
+
+                const projects = await res.json();
+                const container = document.getElementById('relatedProjects');
+                if (!container) return;
+
+                if (!projects || projects.length === 0) {
+                    container.innerHTML = '<p>Kh�ng c� d? �n li�n quan</p>';
+                    return;
+                }
+
+                const relatedProjects = projects
+                    .filter(project => (project.slug || project._id) !== currentSlug)
+                    .slice(0, 3);
+
+                if (relatedProjects.length === 0) {
+                    container.innerHTML = '<p>Kh�ng c� d? �n li�n quan</p>';
+                    return;
+                }
+
+                container.innerHTML = relatedProjects.map(project => {
+                    const projectName = project.name || project.title || 'T�n d? �n';
+                    return `
+                        <a href="/projects/${project.slug || project._id}" class="related-project-item">
+                            <img src="${getProjectThumbnail(project)}"
+                                 alt="${projectName}" class="related-project-image">
+                            <h4 class="related-project-title">${projectName}</h4>
+                        </a>
+                    `;
+                }).join('');
+            } catch (e) {
+                console.error('Error loading related projects:', e);
+            }
+        }
+        // Load project data
+        loadProject();
+        
+        // Hamburger menu toggle (same as products.html)
+        (function(){
+            try {
+                console.log('🔍 Checking hamburger elements...');
+                var toggle = document.querySelector('.nav-toggle');
+                var menu = document.querySelector('.nav-menu');
+                
+                console.log('🔍 Toggle element:', toggle);
+                console.log('🔍 Menu element:', menu);
+                console.log('🔍 Toggle display:', toggle ? window.getComputedStyle(toggle).display : 'not found');
+                console.log('🔍 Menu display:', menu ? window.getComputedStyle(menu).display : 'not found');
+                
+                if (toggle && menu) {
+                    toggle.addEventListener('click', function(){
+                        if (menu.style.display === 'flex') {
+                            menu.style.display = 'none';
+                        } else {
+                            menu.style.display = 'flex';
+                        }
+                    });
+                }
+            } catch(e) {
+                console.error('Hamburger menu error:', e);
+            }
+        })();
+    </script>
+
+    <!-- Floating Social Media Buttons -->
+    <div class="floating-social">
+        <a href="https://www.facebook.com/profile.php?id=61572981361471" target="_blank" rel="noopener" class="social-float-btn facebook" aria-label="Facebook">
+            <span class="icon">
+                <svg viewBox="0 0 24 24" width="24" height="24">
+                    <path d="M22 12.073C22 6.477 17.523 2 11.927 2 6.332 2 1.855 6.477 1.855 12.073c0 4.997 3.657 9.141 8.438 9.878v-6.987H7.898v-2.89h2.395V9.845c0-2.368 1.41-3.675 3.567-3.675 1.034 0 2.115.185 2.115.185v2.327h-1.19c-1.175 0-1.54.73-1.54 1.478v1.775h2.617l-.418 2.89h-2.199v6.987c4.78-.737 8.437-4.88 8.437-9.878z"/>
+                </svg>
+            </span>
+            <span class="tooltip">Theo dõi Facebook</span>
+        </a>
+        <a href="https://zalo.me/g/qlzzhf503" target="_blank" rel="noopener" class="social-float-btn zalo" aria-label="Zalo">
+            <span class="icon">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/91/Icon_of_Zalo.svg/2048px-Icon_of_Zalo.svg.png" alt="Zalo" width="24" height="24">
+            </span>
+            <span class="tooltip">Chat Zalo</span>
+        </a>
+    </div>
+</body>
+</html>
+
+
+
+

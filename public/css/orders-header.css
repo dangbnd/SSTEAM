@@ -1,0 +1,382 @@
+/* Header & Navigation for Orders page */
+
+/* Font consistency */
+html, body { margin: 0; padding: 0; }
+body { font-family: system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji"; line-height: 1.5; }
+.header {
+    background: linear-gradient(135deg, #1e40af 0%, #3b82f6 50%, #60a5fa 100%) !important;
+    box-shadow: 0 4px 20px rgba(30, 64, 175, 0.25) !important;
+    position: sticky !important;
+    top: 0 !important;
+    z-index: 1000 !important;
+    border-bottom: 3px solid !important;
+    border-image: linear-gradient(90deg, #fbbf24, #34d399, #60a5fa) 1 !important;
+    backdrop-filter: blur(10px) !important;
+}
+
+.navbar { padding: 1rem 0; position: relative; }
+.navbar::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.15), transparent);
+    pointer-events: none;
+}
+
+.navbar .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 100%;
+    padding: 0 1.5rem;
+    gap: 2rem;
+}
+
+.nav-brand a { text-decoration: none; position: relative; z-index: 2; }
+.nav-brand h1,
+.nav-brand .brand-name { font-size: 1.8rem; margin: 0; color: white; font-weight: 700; text-shadow: 0 2px 8px rgba(0, 0, 0, 0.4); }
+.nav-brand:hover h1,
+.nav-brand:hover .brand-name { text-shadow: 0 4px 12px rgba(0, 0, 0, 0.5); }
+.nav-brand span { color: rgba(255, 255, 255, 0.9); font-weight: 400; font-size: 1.2rem; }
+
+.nav-menu { display: flex; list-style: none; gap: 1.5rem; flex: 1; justify-content: center; margin: 0 2rem; }
+.nav-menu .mobile-only { display: none; }
+
+.nav-link {
+    text-decoration: none;
+    color: rgba(255, 255, 255, 0.9);
+    font-weight: 500;
+    position: relative;
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+}
+.nav-link:hover { color: white; background: rgba(255, 255, 255, 0.1); }
+.nav-link.active { color: white; background: rgba(255, 255, 255, 0.2); box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2); }
+.nav-link.active::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: 0 auto;
+    width: calc(100% - 16px);
+    height: 3px;
+    background: linear-gradient(90deg, #fbbf24, #34d399);
+    border-radius: 2px;
+}
+
+.nav-actions { display: flex; align-items: center; gap: 1.5rem; flex-shrink: 0; }
+.auth-buttons { display: flex; align-items: center; gap: 0.5rem; }
+.auth-btn { padding: 0.5rem 1rem; border-radius: 8px; text-decoration: none; font-weight: 500; border: none; cursor: pointer; font-size: 0.9rem; }
+.auth-btn-login { background: transparent; color: white; border: 2px solid white; }
+.auth-btn-login:hover { background: white; color: #1e40af; }
+.auth-btn-register { background: white; color: #1e40af; border: 2px solid white; }
+.auth-btn-register:hover { background: transparent; color: white; }
+
+/* User menu dropdown */
+.user-menu { position: relative; }
+.user-avatar{ 
+  width:40px; height:40px; border-radius:50%; overflow:hidden; 
+  display:inline-flex; align-items:center; justify-content:center; 
+  border:1px solid rgba(0,0,0,0.08); background: rgba(0,0,0,0.02);
+  flex-shrink:0; padding:0; line-height:0; aspect-ratio: 1 / 1;
+  cursor: pointer; border: none; transition: all 0.3s ease;
+}
+.user-avatar:hover { 
+  transform: scale(1.05); 
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15); 
+}
+.user-avatar img{ width:100%; height:100%; object-fit:cover; border-radius:50%; display:block; }
+.user-dropdown { 
+    position: absolute; top: calc(100% + 8px); right: 0; 
+    background: white; border-radius: 8px; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2); 
+    min-width: 200px; z-index: 1000; opacity: 0; visibility: hidden; transform: translateY(-10px); 
+    transition: all 0.3s ease; border: 1px solid rgba(0, 0, 0, 0.08);
+}
+.user-menu.active .user-dropdown { opacity: 1; visibility: visible; transform: translateY(0); }
+.dropdown-header { padding: 1rem; border-bottom: 1px solid #e5e7eb; font-weight: 600; color: #374151; }
+.dropdown-item { display: block; padding: 0.75rem 1rem; color: #374151; text-decoration: none; border: none; background: none; width: 100%; text-align: left; cursor: pointer; font-size: 0.9rem; }
+.dropdown-item:hover { background: #f3f4f6; }
+.dropdown-item:last-child { border-radius: 0 0 8px 8px; }
+.logout-btn { color: #dc2626; }
+.logout-btn:hover { background: #fef2f2; color: #b91c1c; }
+
+.nav-toggle { display: none; flex-direction: column; cursor: pointer; }
+.nav-toggle span { width: 25px; height: 3px; background-color: white; margin: 3px 0; border-radius: 2px; box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3); transform-origin: center; }
+.nav-toggle.active span { background-color: white; }
+
+@media (max-width: 768px) {
+    .navbar .container { padding: 0 1rem; gap: 1rem; }
+    .nav-menu { display: none; position: absolute; top: 100%; left: 0; width: 100%; max-width: 100%; background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%); flex-direction: column; padding: 1rem; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3); margin: 0; z-index: 1000; box-sizing: border-box; overflow: hidden; }
+    .nav-menu.active { display: flex !important; }
+    .nav-actions { display: none; }
+    .nav-toggle { display: flex; margin-left: auto; }
+    .nav-brand { margin-right: auto; }
+    .nav-menu .mobile-only { display: block; }
+    .mobile-auth-section { display: block !important; }
+    
+    /* Add border to last nav item */
+    .nav-menu li:last-child {
+        border-top: 1px solid rgba(255, 255, 255, 0.2);
+        padding-top: 0.5rem;
+        margin-top: 0.5rem;
+    }
+}
+
+/* Hide mobile auth section on PC - higher specificity */
+@media (min-width: 769px) {
+    html body .mobile-auth-section {
+        display: none !important;
+        visibility: hidden !important;
+        opacity: 0 !important;
+        height: 0 !important;
+        overflow: hidden !important;
+    }
+}
+
+/* Footer CSS from news.css */
+.footer { 
+    background: linear-gradient(135deg, #1e40af 0%, #3b82f6 50%, #60a5fa 100%);
+    box-shadow: 0 4px 20px rgba(30, 64, 175, 0.25);
+    color: #fff; padding: 2rem 0 1rem; margin-top: 2rem;
+}
+.footer-content { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.25rem; margin-bottom: 1rem; justify-items: center; text-align: center; }
+.footer-section { text-align: center !important; }
+.footer-section h3,
+.footer-section h4 { margin-bottom: 1rem; color: white; }
+.footer-section ul { list-style: none; text-align: center !important; padding: 0; }
+.footer-section ul li { margin-bottom: 0.5rem; text-align: center !important; }
+.footer-section a { color: #d1d5db; text-decoration: none; }
+.footer-section a:hover { color: white; }
+.social-links { display: flex; gap: 1rem; }
+.social-links a { 
+  display: inline-flex; 
+  align-items: center; 
+  justify-content: center; 
+  width: 40px; 
+  height: 40px; 
+  border-radius: 50%; 
+  background-color: #ffffff; 
+  overflow: hidden;
+}
+.social-links a:hover { background-color: #3b82f6; }
+.social-links .icon { width: 24px; height: 24px; display: block; }
+
+/* Footer social icons colors */
+.social-links a.facebook .icon svg { fill: #1877f2; }
+.social-links a.youtube .icon svg { fill: #ff0000; }
+.social-links a.tiktok .icon svg { fill: #000000; }
+.social-links a.zalo .icon svg { fill: #0068ff; }
+.footer-bottom { border-top: 1px solid #334155; padding-top: .75rem; text-align: center; color: #ffffff; }
+
+.footer .footer-container { width: 100%; margin: 0 auto; padding: 0 1rem; box-sizing: border-box; }
+
+@media (max-width: 768px){
+  /* Fix footer on mobile */
+  .footer .footer-container {
+    padding: 0 12px !important;
+  }
+  
+  .footer-content {
+    grid-template-columns: 1fr !important;
+    gap: 1.5rem !important;
+    text-align: center !important;
+  }
+  
+  .footer-section {
+    margin-bottom: 1rem !important;
+    text-align: center !important;
+  }
+  
+  .footer-section ul {
+    text-align: center !important;
+    padding: 0 !important;
+  }
+  
+  .footer-section li {
+    text-align: center !important;
+  }
+  
+  .social-links {
+    justify-content: center !important;
+  }
+}
+
+/* Orders page full width */
+.orders-page {
+    width: 100% !important;
+    max-width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    box-sizing: border-box !important;
+}
+
+/* Prevent body/html layout changes from affecting floating buttons */
+html, body {
+    overflow-x: hidden !important;
+    position: static !important;
+    transform: none !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+}
+
+/* Floating Social Media Buttons - Isolated from all layout changes */
+html body .floating-social {
+    position: fixed !important;
+    right: 20px !important;
+    bottom: 20px !important;
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 10px !important;
+    z-index: 99999 !important;
+    transform: none !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    box-sizing: border-box !important;
+    top: auto !important;
+    left: auto !important;
+    width: auto !important;
+    height: auto !important;
+    isolation: isolate !important;
+    contain: layout style !important;
+    will-change: auto !important;
+    backface-visibility: hidden !important;
+}
+
+.social-float-btn {
+    position: relative;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.social-float-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+}
+
+.social-float-btn .icon {
+    width: 24px;
+    height: 24px;
+    fill: white;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+}
+
+.social-float-btn .icon svg {
+    width: 100%;
+    height: 100%;
+}
+
+.social-float-btn .icon img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+.social-float-btn .tooltip {
+    position: absolute;
+    right: 60px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(0, 0, 0, 0.8);
+    color: white;
+    padding: 8px 12px;
+    border-radius: 6px;
+    font-size: 12px;
+    white-space: nowrap;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+    pointer-events: none;
+}
+
+.social-float-btn .tooltip::after {
+    content: '';
+    position: absolute;
+    left: 100%;
+    top: 50%;
+    transform: translateY(-50%);
+    border: 5px solid transparent;
+    border-left-color: rgba(0, 0, 0, 0.8);
+}
+
+.social-float-btn:hover .tooltip {
+    opacity: 1;
+    visibility: visible;
+}
+
+.social-float-btn.facebook {
+    background: #1877f2;
+}
+
+.social-float-btn.zalo {
+    background: #0068ff;
+}
+
+.social-float-btn.youtube {
+    background: #ff0000;
+}
+
+.social-float-btn.tiktok {
+    background: #000000;
+}
+
+@media (max-width: 768px) {
+    html body .floating-social {
+        right: 15px !important;
+        bottom: 15px !important;
+        z-index: 99999 !important;
+        transform: none !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        box-sizing: border-box !important;
+        top: auto !important;
+        left: auto !important;
+        width: auto !important;
+        height: auto !important;
+        isolation: isolate !important;
+        contain: layout style !important;
+        will-change: auto !important;
+        backface-visibility: hidden !important;
+    }
+    
+    .social-float-btn {
+        width: 45px;
+        height: 45px;
+    }
+    
+    .social-float-btn .icon {
+        width: 20px;
+        height: 20px;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+    }
+    
+    .social-float-btn .icon svg {
+        width: 100%;
+        height: 100%;
+    }
+    
+    .social-float-btn .icon img {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+    }
+    
+    .social-float-btn .tooltip {
+        font-size: 11px;
+        padding: 6px 10px;
+    }
+}

@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Khám phá các khóa học STEAM chất lượng cao. Lập trình, khoa học, kỹ thuật, nghệ thuật và toán học cho mọi lứa tuổi.">
+    <meta name="keywords" content="khóa học STEM, khóa học STEAM, lập trình, khoa học, kỹ thuật, nghệ thuật, toán học, học online">
+    <meta name="author" content="STEAM Education Team">
+    <meta name="robots" content="index, follow">
+    <meta property="og:title" content="Khóa học STEAM | STEAM Education">
+    <meta property="og:description" content="Khám phá các khóa học STEAM chất lượng cao">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://stemsteam.edu.vn/courses">
+    <link rel="canonical" href="https://stemsteam.edu.vn/courses">
+    
+    <title>Giáo dục Steam số 1 Việt Nam</title>
+    
+    <link rel="stylesheet" href="css/style.css">
+    
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-Q2ZMPLR4K7"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-Q2ZMPLR4K7');
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="/images/pasted-1757553903533.webp">
+    <link rel="icon" type="image/webp" href="/images/pasted-1757553903533.webp">
+    <link rel="apple-touch-icon" href="/images/pasted-1757553903533.webp">
+    <link rel="shortcut icon" href="/images/pasted-1757553903533.webp">
+    <link rel='stylesheet' href='/css/vi-font.css'>
+</head>
+<body>
+<!-- Main Content with Sidebar -->
+    <section class="main-content">
+        <div class="content-layout">
+            <!-- Left Sidebar -->
+            <aside class="products-sidebar">
+                <div class="sidebar-section">
+                    <h3 class="sidebar-title">TÌM KIẾM</h3>
+                    <div class="search-filter">
+                        <input type="text" id="searchInput" placeholder="Tìm kiếm khóa học..." class="search-input">
+                        <button id="searchBtn" class="search-btn">🔍</button>
+                        <button id="clearSearchBtn" class="clear-search-btn" title="Xóa tìm kiếm">✕</button>
+                    </div>
+                </div>
+
+                <div class="sidebar-section">
+                    <h3 class="sidebar-title">DANH MỤC</h3>
+                    <ul class="category-list" id="categoriesList">
+                        <li class="loading-categories">
+                            <span class="loading-spinner">⏳</span>
+                            <span>Đang tải danh mục...</span>
+                        </li>
+                    </ul>
+                </div>
+            </aside>
+
+            <!-- Courses Grid -->
+            <main class="products-main">
+                <div class="products-header">
+                    <h2 class="products-title">Khóa học STEAM</h2>
+                </div>
+                <div class="courses-grid" id="allCoursesGrid">
+                <!-- Sample Course Card with improved layout -->
+                <div class="course-card">
+                    <div class="course-header">
+                        <div class="course-icon">📊</div>
+                        <div class="course-category">Phân tích dữ liệu với Python</div>
+                    </div>
+                    <div class="course-main-content">
+                        <div class="course-title-section">
+                            <h3 class="course-title">Phân tích dữ liệu với Python</h3>
+                            <p class="course-description">Học phân tích dữ liệu từ cơ bản đến nâng cao với Python. Khóa học bao gồm các kỹ thuật xử lý, phân tích và trực quan hóa dữ liệu thực tế.</p>
+                        </div>
+                        <div class="course-details-section">
+                            <div class="course-info-text">
+                                <div>Khoa học dữ liệu</div>
+                                <div>Machine Learning</div>
+                                <div>Thực hành dự án</div>
+                            </div>
+                            <div class="course-actions-row">
+                                <button class="course-level-btn">Nâng cao</button>
+                                <div class="course-metrics">
+                                    <div class="metric-item">
+                                        <span class="metric-icon">👁️</span>
+                                        <span>620</span>
+                                    </div>
+                                    <div class="metric-item">
+                                        <span class="metric-icon">⭐</span>
+                                        <span>4.5</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Additional sample course cards -->
+                <div class="course-card">
+                    <div class="course-header">
+                        <div class="course-icon">🤖</div>
+                        <div class="course-category">Lập trình Robot với Arduino</div>
+                    </div>
+                    <div class="course-main-content">
+                        <div class="course-title-section">
+                            <h3 class="course-title">Lập trình Robot với Arduino</h3>
+                            <p class="course-description">Học lập trình điều khiển robot từ cơ bản đến nâng cao. Thực hành với các dự án robot thực tế và hiểu về điện tử cơ bản.</p>
+                        </div>
+                        <div class="course-details-section">
+                            <div class="course-info-text">
+                                <div>Điện tử cơ bản</div>
+                                <div>Lập trình C++</div>
+                                <div>Dự án robot</div>
+                            </div>
+                            <div class="course-actions-row">
+                                <button class="course-level-btn">Trung cấp</button>
+                                <div class="course-metrics">
+                                    <div class="metric-item">
+                                        <span class="metric-icon">👁️</span>
+                                        <span>450</span>
+                                    </div>
+                                    <div class="metric-item">
+                                        <span class="metric-icon">⭐</span>
+                                        <span>4.7</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="course-card">
+                    <div class="course-header">
+                        <div class="course-icon">🎨</div>
+                        <div class="course-category">Thiết kế 3D với Tinkercad</div>
+                    </div>
+                    <div class="course-main-content">
+                        <div class="course-title-section">
+                            <h3 class="course-title">Thiết kế 3D với Tinkercad</h3>
+                            <p class="course-description">Học thiết kế 3D từ cơ bản đến nâng cao. Tạo các mô hình 3D phức tạp và chuẩn bị file in 3D chuyên nghiệp.</p>
+                        </div>
+                        <div class="course-details-section">
+                            <div class="course-info-text">
+                                <div>Thiết kế 3D</div>
+                                <div>In 3D</div>
+                                <div>Sáng tạo</div>
+                            </div>
+                            <div class="course-actions-row">
+                                <button class="course-level-btn">Cơ bản</button>
+                                <div class="course-metrics">
+                                    <div class="metric-item">
+                                        <span class="metric-icon">👁️</span>
+                                        <span>380</span>
+                                    </div>
+                                    <div class="metric-item">
+                                        <span class="metric-icon">⭐</span>
+                                        <span>4.6</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                </div>
+            </main>
+        </div>
+    </section>
+
+    <!-- Course Categories -->
+    <section class="categories-section">
+        <div class="container">
+            <h2 class="section-title">Khám phá theo lĩnh vực</h2>
+            <div class="categories-grid">
+                <div class="category-card">
+                    <div class="category-icon">🔬</div>
+                    <h3>Khoa học (Science)</h3>
+                    <p>Khám phá các nguyên lý khoa học thông qua thí nghiệm và quan sát</p>
+                    <ul>
+                        <li>Thí nghiệm hóa học cơ bản</li>
+                        <li>Vật lý ứng dụng</li>
+                        <li>Sinh học thực tế</li>
+                        <li>Khoa học môi trường</li>
+                    </ul>
+                </div>
+                <div class="category-card">
+                    <div class="category-icon">💻</div>
+                    <h3>Công nghệ (Technology)</h3>
+                    <p>Học lập trình và sử dụng công nghệ để giải quyết vấn đề</p>
+                    <ul>
+                        <li>Lập trình Scratch</li>
+                        <li>Python cơ bản</li>
+                        <li>Web Development</li>
+                        <li>AI & Machine Learning</li>
+                    </ul>
+                </div>
+                <div class="category-card">
+                    <div class="category-icon">⚙️</div>
+                    <h3>Kỹ thuật (Engineering)</h3>
+                    <p>Thiết kế và xây dựng các giải pháp kỹ thuật</p>
+                    <ul>
+                        <li>Thiết kế 3D</li>
+                        <li>Robotics cơ bản</li>
+                        <li>Điện tử ứng dụng</li>
+                        <li>In 3D</li>
+                    </ul>
+                </div>
+                <div class="category-card">
+                    <div class="category-icon">🎨</div>
+                    <h3>Nghệ thuật (Arts)</h3>
+                    <p>Kết hợp sáng tạo nghệ thuật với công nghệ</p>
+                    <ul>
+                        <li>Digital Art</li>
+                        <li>Animation cơ bản</li>
+                        <li>Game Design</li>
+                        <li>Music Technology</li>
+                    </ul>
+                </div>
+                <div class="category-card">
+                    <div class="category-icon">📐</div>
+                    <h3>Toán học (Mathematics)</h3>
+                    <p>Ứng dụng toán học vào các tình huống thực tế</p>
+                    <ul>
+                        <li>Toán học trong cuộc sống</li>
+                        <li>Thống kê cơ bản</li>
+                        <li>Hình học ứng dụng</li>
+                        <li>Logic và tư duy</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Call to Action -->
+    <section class="cta-section">
+        <div class="container">
+            <div class="cta-content">
+                <h2>Sẵn sàng bắt đầu hành trình STEAM?</h2>
+                <p>Đăng ký ngay để nhận thông tin về các khóa học mới nhất và ưu đãi đặc biệt</p>
+                <div class="cta-buttons">
+                    <a href="/contact" class="btn btn-primary">Liên hệ tư vấn</a>
+                    <a href="/products" class="btn btn-secondary">Xem sản phẩm</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    
+<!-- Floating Social Media Buttons -->
+    <div class="floating-social">
+        <a href="https://www.facebook.com/profile.php?id=61572981361471" target="_blank" rel="noopener" class="social-float-btn facebook" aria-label="Facebook">
+            <span class="icon">
+                <svg viewBox="0 0 24 24" width="24" height="24">
+                    <path d="M22 12.073C22 6.477 17.523 2 11.927 2 6.332 2 1.855 6.477 1.855 12.073c0 4.997 3.657 9.141 8.438 9.878v-6.987H7.898v-2.89h2.395V9.845c0-2.368 1.41-3.675 3.567-3.675 1.034 0 2.115.185 2.115.185v2.327h-1.19c-1.175 0-1.54.73-1.54 1.478v1.775h2.617l-.418 2.89h-2.199v6.987c4.78-.737 8.437-4.88 8.437-9.878z"/>
+                </svg>
+            </span>
+            <span class="tooltip">Theo dõi Facebook</span>
+        </a>
+        <a href="https://zalo.me/g/qlzzhf503" target="_blank" rel="noopener" class="social-float-btn zalo" aria-label="Zalo">
+            <span class="icon">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/91/Icon_of_Zalo.svg/2048px-Icon_of_Zalo.svg.png" alt="Zalo" width="24" height="24">
+            </span>
+            <span class="tooltip">Chat Zalo</span>
+        </a>
+    </div>
+
+    <script src="js/main.js"></script>
+    <script src="js/products.js"></script>
+    <script src="js/courses.js"></script>
+</body>
+</html> 

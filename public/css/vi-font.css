@@ -1,0 +1,48 @@
+@import url('https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&display=swap');
+
+:root {
+    --vi-font-family: 'Be Vietnam Pro', 'Segoe UI', 'Noto Sans', Arial, sans-serif;
+}
+
+html,
+body {
+    font-family: var(--vi-font-family) !important;
+}
+
+body *:not(svg):not(path):not(img):not(video):not(canvas) {
+    font-family: var(--vi-font-family) !important;
+}
+
+input,
+button,
+select,
+textarea {
+    font-family: inherit !important;
+}
+
+/* Keep Font Awesome glyphs intact when global Vietnamese font override is active */
+.fa,
+.fas,
+.far,
+.fab,
+.fa-solid,
+.fa-regular,
+.fa-brands {
+    font-family: "Font Awesome 6 Free", "Font Awesome 6 Brands" !important;
+}
+
+.fa-solid,
+.fas {
+    font-weight: 900 !important;
+}
+
+.fa-regular,
+.far {
+    font-weight: 400 !important;
+}
+
+.fa-brands,
+.fab {
+    font-family: "Font Awesome 6 Brands" !important;
+    font-weight: 400 !important;
+}

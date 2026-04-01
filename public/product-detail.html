@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Giáo dục Steam số 1 Việt Nam</title>
+    <meta name="description" content="Chi tiết sản phẩm STEM STEAM Education">
+    <meta name="keywords" content="STEM, STEAM, giáo dục, sản phẩm">
+    
+    <!-- CSS (shared detail system) -->
+    <link rel="stylesheet" href="/css/shared/tokens.css">
+    <link rel="stylesheet" href="/css/shared/base.css">
+    <link rel="stylesheet" href="/css/shared/container.css">
+    <link rel="stylesheet" href="/css/detail/detail-shell.css">
+    <link rel="stylesheet" href="/css/detail/sidebar.css">
+    <link rel="stylesheet" href="/css/product-detail.css">
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-Q2ZMPLR4K7"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);} 
+      gtag('js', new Date());
+      gtag('config', 'G-Q2ZMPLR4K7');
+    </script>
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="/images/pasted-1757553903533.webp">
+    <link rel="icon" type="image/webp" href="/images/pasted-1757553903533.webp">
+    <link rel="apple-touch-icon" href="/images/pasted-1757553903533.webp">
+    <link rel="shortcut icon" href="/images/pasted-1757553903533.webp">
+    <link rel='stylesheet' href='/css/vi-font.css'>
+</head>
+<body class="product-detail-page">
+<!-- Main Content -->
+    <section class="project-content">
+        <div class="container">
+            <!-- Breadcrumb -->
+            <nav class="pd-breadcrumb" aria-label="breadcrumb">
+                <ul class="pd-breadcrumb-list">
+                    <li><a href="index.html">Trang chủ</a></li>
+                    <li><a href="products.html">Sản phẩm</a></li>
+                    <li id="breadcrumb-product" aria-current="page">Chi tiết sản phẩm</li>
+                </ul>
+            </nav>
+
+            <!-- 3-column product grid: sidebar | media | info -->
+            <div class="pd-layout">
+
+                <!-- Column 1: Left Sidebar -->
+                <aside class="pd-sidebar project-sidebar">
+                    <div class="project-sidebar-inner">
+                        <div class="sidebar-section">
+                            <h3>Danh mục sản phẩm</h3>
+                            <ul class="category-list" id="categoriesList">
+                                <li><span>⏳</span><span>Đang tải danh mục...</span></li>
+                            </ul>
+                        </div>
+                        <div class="sidebar-section">
+                            <h3>Sản phẩm gợi ý</h3>
+                            <div class="suggested-products" id="productSidebarSuggestions">
+                                <div class="suggestions-loading">Đang tải sản phẩm gợi ý...</div>
+                            </div>
+                        </div>
+                        <div class="sidebar-section">
+                            <h3>Khác</h3>
+                            <ul class="other-list">
+                                <li class="other-item"><a href="#">Hướng dẫn mua hàng</a></li>
+                                <li class="other-item"><a href="#">Hướng dẫn thanh toán</a></li>
+                                <li class="other-item"><a href="#">Kiểm tra đơn hàng</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </aside>
+
+                <!-- Column 2: Main Media Card — filled by JS -->
+                <div id="pd-media-col" class="pd-media-col">
+                    <div class="pd-loading">⏳ Đang tải...</div>
+                </div>
+
+                <!-- Column 3: Secondary Info Card — filled by JS -->
+                <div id="pd-info-col" class="pd-info-col">
+                </div>
+
+                <!-- Row 2 spans all 3 columns: Tabs/content below -->
+                <div id="pd-tabs-row" class="pd-tabs-row">
+                </div>
+
+            </div><!-- /.pd-layout -->
+
+            <!-- Lightbox modal — filled by JS -->
+            <div id="pd-modal-root"></div>
+        </div>
+    </section>
+
+
+
+    
+<!-- Scripts -->
+    <script src="js/main.js"></script>
+    <script src="js/product-detail.js"></script>
+    <script src="js/products.js"></script>
+    
+    <!-- Debug auth buttons -->
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        console.log('🔍 Product detail page loaded');
+        console.log('🔍 Auth buttons element:', document.getElementById('auth-buttons'));
+        console.log('🔍 Mobile auth buttons element:', document.getElementById('mobile-auth-buttons'));
+        
+        // Force render auth buttons
+        setTimeout(function() {
+            if (typeof renderAuthButtons === 'function') {
+                console.log('🔍 Calling renderAuthButtons...');
+                renderAuthButtons();
+            } else {
+                console.log('❌ renderAuthButtons function not found');
+            }
+        }, 1000);
+    });
+    </script>
+    <script>
+    (function(){
+        try {
+            var toggle = document.querySelector('.nav-toggle');
+            var menu = document.querySelector('.nav-menu');
+            if (toggle && menu) {
+                toggle.addEventListener('click', function(){
+                    menu.classList.toggle('active');
+                });
+                menu.addEventListener('click', function(e){
+                    if (e.target && e.target.classList && e.target.classList.contains('nav-link')) {
+                        menu.classList.remove('active');
+                    }
+                });
+            }
+        } catch (e) {}
+    })();
+    </script>
+
+    <!-- Floating Social Media Buttons -->
+    <div class="floating-social">
+        <a href="https://www.facebook.com/profile.php?id=61572981361471" target="_blank" rel="noopener" class="social-float-btn facebook" aria-label="Facebook">
+            <span class="icon">
+                <svg viewBox="0 0 24 24" width="24" height="24">
+                    <path d="M22 12.073C22 6.477 17.523 2 11.927 2 6.332 2 1.855 6.477 1.855 12.073c0 4.997 3.657 9.141 8.438 9.878v-6.987H7.898v-2.89h2.395V9.845c0-2.368 1.41-3.675 3.567-3.675 1.034 0 2.115.185 2.115.185v2.327h-1.19c-1.175 0-1.54.73-1.54 1.478v1.775h2.617l-.418 2.89h-2.199v6.987c4.78-.737 8.437-4.88 8.437-9.878z"/>
+                </svg>
+            </span>
+            <span class="tooltip">Theo dõi Facebook</span>
+        </a>
+        <a href="https://zalo.me/g/qlzzhf503" target="_blank" rel="noopener" class="social-float-btn zalo" aria-label="Zalo">
+            <span class="icon">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/91/Icon_of_Zalo.svg/2048px-Icon_of_Zalo.svg.png" alt="Zalo" width="24" height="24">
+            </span>
+            <span class="tooltip">Chat Zalo</span>
+        </a>
+    </div>
+</body>
+</html>
+

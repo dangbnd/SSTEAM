@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đơn hàng của tôi - Smart Steam</title>
+    <meta name="description" content="Xem và quản lý đơn hàng của bạn tại Smart Steam. Theo dõi trạng thái đơn hàng, lịch sử mua sắm và thông tin chi tiết về các sản phẩm STEAM.">
+    <meta name="keywords" content="đơn hàng, quản lý đơn hàng, Smart Steam, STEAM, lịch sử mua sắm, trạng thái đơn hàng">
+    <meta name="author" content="Smart Steam">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://smartsteam.vn/orders">
+    
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:title" content="Đơn hàng của tôi - Smart Steam">
+    <meta property="og:description" content="Xem và quản lý đơn hàng của bạn tại Smart Steam. Theo dõi trạng thái đơn hàng và lịch sử mua sắm.">
+    <meta property="og:image" content="https://smartsteam.vn/images/pasted-1757553903533.webp">
+    <meta property="og:url" content="https://smartsteam.vn/orders">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Smart Steam">
+    
+    <!-- Twitter Card Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Đơn hàng của tôi - Smart Steam">
+    <meta name="twitter:description" content="Xem và quản lý đơn hàng của bạn tại Smart Steam.">
+    <meta name="twitter:image" content="https://smartsteam.vn/images/pasted-1757553903533.webp">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="/images/pasted-1757553903533.webp">
+    <link rel="icon" type="image/webp" href="/images/pasted-1757553903533.webp">
+    <link rel="apple-touch-icon" href="/images/pasted-1757553903533.webp">
+    <link rel="shortcut icon" href="/images/pasted-1757553903533.webp">
+    <link rel="stylesheet" href="/css/order.css">
+    <link rel="stylesheet" href="/css/orders-header.css">
+    
+    <!-- Structured Data -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "WebPage",
+        "name": "Đơn hàng của tôi - Smart Steam",
+        "description": "Trang quản lý đơn hàng của khách hàng tại Smart Steam. Xem và theo dõi trạng thái đơn hàng, lịch sử mua sắm các sản phẩm STEM/STEAM.",
+        "url": "https://smartsteam.vn/orders",
+        "mainEntity": {
+            "@type": "EducationalOrganization",
+            "name": "Smart Steam",
+            "url": "https://smartsteam.vn",
+            "description": "Nền tảng giáo dục hàng đầu về STEAM tại Việt Nam"
+        },
+        "breadcrumb": {
+            "@type": "BreadcrumbList",
+            "itemListElement": [
+                {
+                    "@type": "ListItem",
+                    "position": 1,
+                    "name": "Trang chủ",
+                    "item": "https://smartsteam.vn"
+                },
+                {
+                    "@type": "ListItem",
+                    "position": 2,
+                    "name": "Đơn hàng",
+                    "item": "https://smartsteam.vn/orders"
+                }
+            ]
+        },
+        "potentialAction": {
+            "@type": "SearchAction",
+            "target": "https://smartsteam.vn/orders?search={search_term_string}",
+            "query-input": "required name=search_term_string"
+        }
+    }
+    </script>
+    
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-Q2ZMPLR4K7"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-Q2ZMPLR4K7');
+    </script>
+    <link rel='stylesheet' href='/css/vi-font.css'>
+</head>
+<body class="orders-page">
+<!-- ======================== ORDERS CONTENT SECTION ======================== -->
+    <section id="page-orders" class="main">
+        <div class="container">
+            <h1 class="page-title" style="margin: 0 0 2rem 0; font-size: 2.5rem; font-weight: 700; color: #1e40af; text-align: center;">Đơn hàng của tôi</h1>
+
+            <div id="pageGrid" class="page-grid">
+                <section class="orders" aria-label="Danh sách đơn hàng">
+                    <h2 class="section-title" style="margin:0; font-size:34px; letter-spacing:-0.02em;">Giỏ hàng</h2>
+                    <div class="title-underline"></div>
+                    <div id="ordersGrid" class="orders-list"></div>
+                    <div id="ordersEmpty" class="orders-empty" style="display:none;">
+                        <div> Chưa có sản phẩm nào</div>
+                        <a class="btn-red" href="/products" style="margin-left:8px;">MUA SẮM NGAY</a>
+                    </div>
+                    <div>
+                </section>
+                <aside class="summary" aria-label="Tóm tắt đơn hàng">
+                    <div class="sum-row"><span class="sum-title">Thanh toán</span></div>
+                    <div class="sum-row"><span class="sum-muted">Tạm tính</span><span id="sum-subtotal">0 đ</span></div>
+                    <div class="sum-row"><span class="sum-muted">Phí vận chuyển</span><span id="sum-shipping">0 đ</span></div>
+                    <div class="coupon">
+                        <input id="coupon-input" placeholder="Mã giảm giá">
+                        <button id="coupon-apply">Áp dụng</button>
+                </div>
+                    <div class="sum-row"><span class="sum-muted">Email</span><span id="sum-email" class="sum-muted"></span></div>
+                    <div class="sum-row"><span class="sum-title">Tổng thanh toán</span><span id="ordersTotalValue" class="sum-total">0 đ</span></div>
+                    <button id="checkout-btn" class="checkout-btn" onclick="submitOrder()">GỬI ĐƠN HÀNG</button>
+                </aside>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+
+    <script src="/js/auth.js"></script>
+    <script src="/js/main.js"></script>
+    <script src="/js/orders-page.js"></script>
+<!-- Floating Social Media Buttons -->
+    <div class="floating-social">
+        <a href="https://www.facebook.com/profile.php?id=61572981361471" target="_blank" rel="noopener" class="social-float-btn facebook" aria-label="Facebook">
+            <span class="icon">
+                <svg viewBox="0 0 24 24" width="24" height="24">
+                    <path d="M22 12.073C22 6.477 17.523 2 11.927 2 6.332 2 1.855 6.477 1.855 12.073c0 4.997 3.657 9.141 8.438 9.878v-6.987H7.898v-2.89h2.395V9.845c0-2.368 1.41-3.675 3.567-3.675 1.034 0 2.115.185 2.115.185v2.327h-1.19c-1.175 0-1.54.73-1.54 1.478v1.775h2.617l-.418 2.89h-2.199v6.987c4.78-.737 8.437-4.88 8.437-9.878z"/>
+                </svg>
+            </span>
+            <span class="tooltip">Theo dõi Facebook</span>
+        </a>
+        <a href="https://zalo.me/g/qlzzhf503" target="_blank" rel="noopener" class="social-float-btn zalo" aria-label="Zalo">
+            <span class="icon">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/91/Icon_of_Zalo.svg/2048px-Icon_of_Zalo.svg.png" alt="Zalo" width="24" height="24">
+            </span>
+            <span class="tooltip">Chat Zalo</span>
+        </a>
+    </div>
+</body>
+</html>
+
+
+

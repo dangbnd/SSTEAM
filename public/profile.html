@@ -1,0 +1,752 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hồ sơ cá nhân - Smart Steam</title>
+    <link rel="stylesheet" href="/css/profile.css">
+    <link rel='stylesheet' href='/css/vi-font.css'>
+</head>
+<body class="profile-page">
+<!-- Main Content -->
+    <main class="main-content">
+        <div class="container">
+            <div class="profile-container">
+                <div class="profile-header">
+                    <div class="profile-avatar">
+                        <img id="profileAvatar" src="" alt="Avatar">
+                        <button class="avatar-edit-btn" id="avatarEditBtn">📷</button>
+                        <input type="file" id="avatarInput" accept="image/*" style="display: none;">
+                    </div>
+                    <div class="profile-info">
+                        <h1 id="profileName"></h1>
+                        <p id="profileEmail">user@example.com</p>
+                        <div class="profile-stats">
+                            <div class="stat-item">
+                                <span class="stat-number" id="orderCount">0</span>
+                                <span class="stat-label">Đơn hàng</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-number" id="tutorialCount">0</span>
+                                <span class="stat-label">Bài giảng</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-number" id="projectCount">0</span>
+                                <span class="stat-label">Dự án</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="profile-content">
+                    <div class="profile-tabs">
+                        <button class="tab-btn active" data-tab="info">Thông tin</button>
+                        <button class="tab-btn" data-tab="orders">Đơn hàng</button>
+                        <button class="tab-btn" data-tab="activity">Hoạt động</button>
+                        <button class="tab-btn" data-tab="settings">Cài đặt</button>
+                    </div>
+
+                    <div class="tab-content">
+                        <!-- Thông tin cá nhân -->
+                        <div class="tab-panel active" id="info-panel">
+                            <div class="profile-form">
+                                <h3>Thông tin cá nhân</h3>
+                                <form id="profileForm">
+                                    <div class="form-row">
+                                        <div class="form-group">
+                                            <label for="firstName">Họ</label>
+                                            <input type="text" id="firstName" name="firstName" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="lastName">Tên</label>
+                                            <input type="text" id="lastName" name="lastName" required>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="email">Email</label>
+                                        <input type="email" id="email" name="email" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="phone">Số điện thoại</label>
+                                        <input type="tel" id="phone" name="phone">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="address">Địa chỉ</label>
+                                        <textarea id="address" name="address" rows="3"></textarea>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="bio">Giới thiệu</label>
+                                        <textarea id="bio" name="bio" rows="4" placeholder="Giới thiệu về bản thân..."></textarea>
+                                    </div>
+                                    <button type="submit" class="save-btn">Lưu thay đổi</button>
+                                </form>
+                            </div>
+                        </div>
+
+                        <!-- Đơn hàng -->
+                        <div class="tab-panel" id="orders-panel">
+                            <div class="orders-section">
+                                <h3>Lịch sử đơn hàng</h3>
+                                <div class="orders-list" id="ordersList">
+                                    <div class="loading">Đang tải đơn hàng...</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Hoạt động -->
+                        <div class="tab-panel" id="activity-panel">
+                            <div class="activity-section">
+                                <h3>Hoạt động gần đây</h3>
+                                <div class="activity-list" id="activityList">
+                                    <div class="loading">Đang tải hoạt động...</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Cài đặt -->
+                        <div class="tab-panel" id="settings-panel">
+                            <div class="settings-section">
+                                <h3>Cài đặt tài khoản</h3>
+                                <div class="settings-group">
+                                    <h4>Bảo mật</h4>
+                                    <div class="setting-item">
+                                        <label>Đổi mật khẩu</label>
+                                        <button class="btn-secondary" onclick="showChangePasswordModal()">Đổi mật khẩu</button>
+                                    </div>
+                                    <div class="setting-item">
+                                        <label>Xác thực 2 bước</label>
+                                        <button class="btn-secondary">Bật xác thực</button>
+                                    </div>
+                                </div>
+                                <div class="settings-group">
+                                    <h4>Thông báo</h4>
+                                    <div class="setting-item">
+                                        <label>Nhận email thông báo</label>
+                                        <input type="checkbox" id="emailNotifications" checked>
+                                    </div>
+                                    <div class="setting-item">
+                                        <label>Nhận tin tức và ưu đãi</label>
+                                        <input type="checkbox" id="newsletter" checked>
+                                    </div>
+                                </div>
+                                <div class="settings-group">
+                                    <h4>Tài khoản</h4>
+                                    <div class="setting-item danger">
+                                        <label>Xóa tài khoản</label>
+                                        <button class="btn-danger" onclick="deleteAccount()">Xóa tài khoản</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    
+<!-- Change Password Modal -->
+    <div class="modal" id="changePasswordModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Đổi mật khẩu</h3>
+                <button class="modal-close" onclick="closeChangePasswordModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="changePasswordForm">
+                    <div class="form-group">
+                        <label for="currentPassword">Mật khẩu hiện tại</label>
+                        <div class="password-input">
+                            <input type="password" id="currentPassword" name="currentPassword" required>
+                            <button type="button" class="toggle-password" onclick="togglePassword('currentPassword')">👁️</button>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="newPassword">Mật khẩu mới</label>
+                        <div class="password-input">
+                            <input type="password" id="newPassword" name="newPassword" required>
+                            <button type="button" class="toggle-password" onclick="togglePassword('newPassword')">👁️</button>
+                        </div>
+                        <div class="password-strength" id="newPasswordStrength">
+                            <div class="strength-bar">
+                                <div class="strength-fill"></div>
+                            </div>
+                            <span class="strength-text">Nhập mật khẩu</span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="confirmNewPassword">Xác nhận mật khẩu mới</label>
+                        <div class="password-input">
+                            <input type="password" id="confirmNewPassword" name="confirmNewPassword" required>
+                            <button type="button" class="toggle-password" onclick="togglePassword('confirmNewPassword')">👁️</button>
+                        </div>
+                    </div>
+                    <div class="modal-actions">
+                        <button type="button" class="btn-secondary" onclick="closeChangePasswordModal()">Hủy</button>
+                        <button type="submit" class="btn-primary">Đổi mật khẩu</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Avatar Crop Modal -->
+    <div class="modal" id="avatarCropModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Cập nhật ảnh đại diện</h3>
+                <button class="modal-close" onclick="closeAvatarCropModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="crop-container">
+                    <canvas id="cropCanvas" width="300" height="300"></canvas>
+                </div>
+                <div class="crop-controls">
+                    <button type="button" class="btn-secondary" onclick="closeAvatarCropModal()">Hủy</button>
+                    <button type="button" class="btn-primary" onclick="saveCroppedAvatar()">Lưu ảnh</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        console.log('🔍 Profile page loaded');
+        console.log('🔍 Auth buttons element:', document.getElementById('auth-buttons'));
+        console.log('🔍 Mobile auth buttons element:', document.getElementById('mobile-auth-buttons'));
+        
+        // Simple auth buttons render (without main.js)
+        setTimeout(function() {
+            console.log('🔍 User data:', localStorage.getItem('user'));
+            const user = localStorage.getItem('user');
+            const authButtons = document.getElementById('auth-buttons');
+            const mobileAuthButtons = document.getElementById('mobile-auth-buttons');
+            
+            if (user) {
+                try {
+                    const userData = JSON.parse(user);
+                    const firstName = userData.firstName || userData.first_name || '';
+                    const lastName = userData.lastName || userData.last_name || '';
+                    const name = firstName && lastName ? `${firstName} ${lastName}` : (userData.name || userData.username || 'User');
+                    const avatarSrc = (userData.profile && userData.profile.avatar) || userData.avatar || '';
+                    const avatarHtml = avatarSrc ? 
+                        `<img src="${avatarSrc}" alt="Avatar" style="width:100%;height:100%;object-fit:cover;border-radius:50%;">` : 
+                        '👤';
+                    
+                    // Desktop version
+                    if (authButtons) {
+                        authButtons.innerHTML = `
+                            <div class="user-menu">
+                                <button class="user-avatar" id="userAvatar">${avatarHtml}</button>
+                                <div class="user-dropdown" id="userDropdown">
+                                    <div class="dropdown-header">${name}</div>
+                                    <a href="/profile" class="dropdown-item">Hồ sơ</a>
+                                    <a href="/orders" class="dropdown-item">Đơn hàng</a>
+                                    <button class="dropdown-item logout-btn" id="logoutBtn">Đăng xuất</button>
+                                </div>
+                            </div>
+                        `;
+                    }
+
+                    // Profile header info
+                    try {
+                        if (userData && (userData.firstName || userData.lastName)) {
+                            const fullName = `${userData.firstName || ''} ${userData.lastName || ''}`.trim();
+                            document.getElementById('profileName').textContent = fullName;
+                        }
+                        const pa = (userData.profile && userData.profile.avatar) || userData.avatar;
+                        if (pa) document.getElementById('profileAvatar').src = pa;
+                    } catch(_) {}
+                    
+                    // Mobile version
+                    if (mobileAuthButtons) {
+                        mobileAuthButtons.innerHTML = `
+                            <div class="mobile-user-greeting">
+                                <div class="mobile-auth-grid">
+                                    <div class="grid-item left">
+                                        <a href="/profile" style="display:flex;align-items:center;gap:0.75rem;text-decoration:none;color:inherit;">
+                                            <span style="display:inline-block;width:40px;height:40px;border-radius:50%;overflow:hidden;background:rgba(255,255,255,0.1);text-align:center;line-height:40px;font-size:20px;">${avatarHtml}</span>
+                                            <span style="color:white;font-weight:500;font-size:0.95rem;">${name}</span>
+                                        </a>
+                                    </div>
+                                    <div class="grid-item right">
+                                        <button onclick="logout()" style="background:rgba(220,38,38,0.2);color:#fca5a5;padding:0.5rem 1rem;border-radius:8px;border:none;font-size:0.9rem;cursor:pointer;white-space:nowrap;">Đăng xuất</button>
+                                    </div>
+                                </div>
+                            </div>
+                        `;
+                    }
+                    
+                    // Add click events
+                    const avatar = document.getElementById('userAvatar');
+                    const dropdown = document.getElementById('userDropdown');
+                    const logoutBtn = document.getElementById('logoutBtn');
+                    
+                    if (avatar && dropdown) {
+                        avatar.addEventListener('click', function(e) {
+                            e.stopPropagation();
+                            dropdown.parentElement.classList.toggle('active');
+                        });
+                        
+                        document.addEventListener('click', function(e) {
+                            if (!e.target.closest('.user-menu')) {
+                                dropdown.parentElement.classList.remove('active');
+                            }
+                        });
+                    }
+                    
+                    if (logoutBtn) {
+                        logoutBtn.addEventListener('click', function() {
+                            localStorage.removeItem('user');
+                            localStorage.removeItem('token');
+                            window.location.href = '/';
+                        });
+                    }
+                    
+                    // Add logout function for mobile
+                    window.logout = function() {
+                        localStorage.removeItem('user');
+                        localStorage.removeItem('token');
+                        window.location.href = '/';
+                    };
+                    
+                    console.log('🔍 Auth buttons rendered successfully');
+                } catch (error) {
+                    console.error('Error parsing user data:', error);
+                }
+            } else {
+                // Not logged in - show login/register buttons
+                if (authButtons) {
+                    authButtons.innerHTML = `
+                        <a href="/login" class="auth-btn-login">Đăng nhập</a>
+                        <a href="/register" class="auth-btn-register">Đăng ký</a>
+                    `;
+                }
+                console.log('🔍 User not logged in, showing login/register buttons');
+            }
+        }, 1000);
+        
+        
+        // Tab switching
+        const tabBtns = document.querySelectorAll('.tab-btn');
+        const tabPanels = document.querySelectorAll('.tab-panel');
+        
+        tabBtns.forEach(btn => {
+            btn.addEventListener('click', function() {
+                const targetTab = this.getAttribute('data-tab');
+                
+                // Remove active from all tabs and panels
+                tabBtns.forEach(b => b.classList.remove('active'));
+                tabPanels.forEach(p => p.classList.remove('active'));
+                
+                // Add active to clicked tab and corresponding panel
+                this.classList.add('active');
+                document.getElementById(targetTab + '-panel').classList.add('active');
+            });
+        });
+        
+        // Mobile menu toggle
+        const navToggle = document.querySelector('.mobile-nav-toggle');
+        const navMenu = document.querySelector('.nav-menu');
+        console.log('🔍 Profile hamburger elements:', { navToggle, navMenu });
+        
+        // Debug: Check mobile auth section
+        console.log('🔍 Mobile auth section element:', document.querySelector('.mobile-auth-section'));
+        console.log('🔍 All mobile auth sections:', document.querySelectorAll('.mobile-auth-section'));
+        console.log('🔍 Computed style:', document.querySelector('.mobile-auth-section') ? 
+            window.getComputedStyle(document.querySelector('.mobile-auth-section')).display : 'Element not found');
+        
+        // Force show mobile auth section
+        const mobileAuthSection = document.querySelector('.mobile-auth-section');
+        if (mobileAuthSection) {
+            mobileAuthSection.style.display = 'block';
+            mobileAuthSection.style.visibility = 'visible';
+            mobileAuthSection.style.opacity = '1';
+            console.log('🔍 Forced mobile auth section to show');
+        } else {
+            console.log('❌ Mobile auth section not found');
+        }
+        
+        if (navToggle && navMenu) {
+            navToggle.addEventListener('click', function() {
+                console.log('🔍 Toggle clicked, menu classes before:', navMenu.className);
+                navMenu.classList.toggle('active');
+                console.log('🔍 Toggle clicked, menu classes after:', navMenu.className);
+                console.log('🔍 Menu computed display:', window.getComputedStyle(navMenu).display);
+                console.log('🔍 Menu computed visibility:', window.getComputedStyle(navMenu).visibility);
+            });
+            navMenu.addEventListener('click', function(e) {
+                if (e.target.classList.contains('nav-link')) {
+                    navMenu.classList.remove('active');
+                }
+            });
+        } else {
+            console.log('❌ Toggle or menu not found:', { navToggle, navMenu });
+        }
+        
+        // Load profile data
+        loadProfileData();
+        
+        // Password strength indicator
+        const newPasswordInput = document.getElementById('newPassword');
+        const strengthBar = document.getElementById('newPasswordStrength').querySelector('.strength-fill');
+        const strengthText = document.getElementById('newPasswordStrength').querySelector('.strength-text');
+        
+        if (newPasswordInput && strengthBar && strengthText) {
+            newPasswordInput.addEventListener('input', function() {
+                const password = this.value;
+                const strength = getPasswordStrength(password);
+                
+                strengthBar.style.width = strength.percentage + '%';
+                strengthBar.className = 'strength-fill ' + strength.class;
+                strengthText.textContent = strength.text;
+            });
+        }
+        
+        // Change password form submission
+        const changePasswordForm = document.getElementById('changePasswordForm');
+        if (changePasswordForm) {
+            changePasswordForm.addEventListener('submit', handleChangePassword);
+        }
+    });
+    
+    function loadProfileData() {
+        try {
+            const user = JSON.parse(localStorage.getItem('user'));
+                if (user) {
+                var fullName = (user.firstName && user.lastName) ? (user.firstName + ' ' + user.lastName) : (user.name || '');
+                document.getElementById('profileName').textContent = fullName || '';
+                document.getElementById('profileEmail').textContent = user.email || 'user@example.com';
+                
+                // Fill form fields
+                if (user.firstName) document.getElementById('firstName').value = user.firstName;
+                if (user.lastName) document.getElementById('lastName').value = user.lastName;
+                if (user.email) document.getElementById('email').value = user.email;
+                if (user.phone) document.getElementById('phone').value = user.phone;
+                if (user.address) document.getElementById('address').value = user.address;
+                if (user.bio) document.getElementById('bio').value = user.bio;
+                if (user && (user.profile && user.profile.avatar || user.avatar)) {
+                    document.getElementById('profileAvatar').src = (user.profile && user.profile.avatar) || user.avatar;
+                }
+            }
+        } catch (error) {
+            console.error('Error loading profile data:', error);
+        }
+    }
+    
+    function showChangePasswordModal() {
+        document.getElementById('changePasswordModal').style.display = 'flex';
+    }
+    
+    function closeChangePasswordModal() {
+        document.getElementById('changePasswordModal').style.display = 'none';
+        document.getElementById('changePasswordForm').reset();
+        document.getElementById('newPasswordStrength').querySelector('.strength-text').textContent = 'Nhập mật khẩu';
+        document.getElementById('newPasswordStrength').querySelector('.strength-fill').style.width = '0%';
+    }
+    
+    function togglePassword(inputId) {
+        const input = document.getElementById(inputId);
+        const button = input.nextElementSibling;
+        if (input.type === 'password') {
+            input.type = 'text';
+            button.textContent = '🙈';
+        } else {
+            input.type = 'password';
+            button.textContent = '👁️';
+        }
+    }
+    
+    function deleteAccount() {
+        if (confirm('Bạn có chắc chắn muốn xóa tài khoản? Hành động này không thể hoàn tác!')) {
+            alert('Tính năng xóa tài khoản sẽ được cập nhật sớm!');
+        }
+    }
+    
+    function handleChangePassword(e) {
+        e.preventDefault();
+        
+        const currentPassword = document.getElementById('currentPassword').value;
+        const newPassword = document.getElementById('newPassword').value;
+        const confirmPassword = document.getElementById('confirmNewPassword').value;
+        
+        // Validation
+        if (newPassword !== confirmPassword) {
+            alert('Mật khẩu mới và xác nhận mật khẩu không khớp!');
+            return;
+        }
+        
+        if (newPassword.length < 6) {
+            alert('Mật khẩu mới phải có ít nhất 6 ký tự!');
+            return;
+        }
+        
+        // Show loading
+        const submitBtn = e.target.querySelector('button[type="submit"]');
+        const originalText = submitBtn.textContent;
+        submitBtn.textContent = 'Đang xử lý...';
+        submitBtn.disabled = true;
+        
+        try {
+            // Make API call to change password
+            const token = localStorage.getItem('token');
+            fetch('/api/auth/change-password', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                },
+                body: JSON.stringify({
+                    currentPassword: currentPassword,
+                    newPassword: newPassword
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    alert('Đổi mật khẩu thành công!');
+                    closeChangePasswordModal();
+                } else {
+                    alert(data.message || 'Có lỗi xảy ra khi đổi mật khẩu!');
+                }
+            })
+            .catch(error => {
+                console.error('Change password error:', error);
+                alert('Có lỗi xảy ra khi đổi mật khẩu!');
+            })
+            .finally(() => {
+                submitBtn.textContent = originalText;
+                submitBtn.disabled = false;
+            });
+        } catch (error) {
+            console.error('Error:', error);
+            alert('Có lỗi xảy ra khi đổi mật khẩu!');
+            submitBtn.textContent = originalText;
+            submitBtn.disabled = false;
+        }
+    }
+    
+    function getPasswordStrength(password) {
+        let score = 0;
+        
+        if (password.length >= 8) score++;
+        else return { percentage: 20, class: 'weak', text: 'Yếu' };
+        
+        if (/[a-z]/.test(password)) score++;
+        if (/[A-Z]/.test(password)) score++;
+        if (/[0-9]/.test(password)) score++;
+        if (/[^A-Za-z0-9]/.test(password)) score++;
+        
+        const strengthLevels = [
+            { percentage: 20, class: 'weak', text: 'Yếu' },
+            { percentage: 40, class: 'weak', text: 'Yếu' },
+            { percentage: 60, class: 'medium', text: 'Trung bình' },
+            { percentage: 80, class: 'strong', text: 'Mạnh' },
+            { percentage: 100, class: 'very-strong', text: 'Rất mạnh' }
+        ];
+        
+        return strengthLevels[Math.min(score, 4)] || { percentage: 0, class: 'weak', text: 'Nhập mật khẩu' };
+    }
+
+    // Avatar upload functionality
+    let selectedFile = null;
+    let croppedImageData = null;
+
+    // Avatar edit button click
+    document.getElementById('avatarEditBtn').addEventListener('click', function() {
+        document.getElementById('avatarInput').click();
+    });
+
+    // File input change
+    document.getElementById('avatarInput').addEventListener('change', function(e) {
+        const file = e.target.files[0];
+        if (file) {
+            if (file.size > 5 * 1024 * 1024) { // 5MB limit
+                alert('Kích thước file quá lớn. Vui lòng chọn file nhỏ hơn 5MB.');
+                return;
+            }
+            
+            if (!file.type.startsWith('image/')) {
+                alert('Vui lòng chọn file ảnh hợp lệ.');
+                return;
+            }
+            
+            selectedFile = file;
+            showCropModal(file);
+        }
+    });
+
+    function showCropModal(file) {
+        const modal = document.getElementById('avatarCropModal');
+        const canvas = document.getElementById('cropCanvas');
+        const ctx = canvas.getContext('2d');
+        
+        const img = new Image();
+        img.onload = function() {
+            // Calculate crop area (center square)
+            const size = Math.min(img.width, img.height);
+            const x = (img.width - size) / 2;
+            const y = (img.height - size) / 2;
+            
+            // Draw cropped image to canvas
+            canvas.width = 300;
+            canvas.height = 300;
+            ctx.drawImage(img, x, y, size, size, 0, 0, 300, 300);
+            
+            modal.style.display = 'flex';
+        };
+        img.src = URL.createObjectURL(file);
+    }
+
+    function closeAvatarCropModal() {
+        document.getElementById('avatarCropModal').style.display = 'none';
+        selectedFile = null;
+        croppedImageData = null;
+    }
+
+    async function saveCroppedAvatar() {
+        try {
+            const canvas = document.getElementById('cropCanvas');
+            // Prefer original selected file so server can convert to WebP
+            const fileToUpload = selectedFile ? selectedFile : await new Promise((resolve) => {
+                canvas.toBlob((b) => resolve(b), 'image/png', 0.95);
+            });
+            if (!fileToUpload) { alert('Không thể tạo ảnh.'); return; }
+
+            const formData = new FormData();
+            const originalName = (selectedFile && selectedFile.name) ? selectedFile.name : `avatar_${Date.now()}.png`;
+            formData.append('avatar', fileToUpload, originalName);
+
+            const token = localStorage.getItem('authToken') || localStorage.getItem('token') || '';
+            const headers = token ? { Authorization: `Bearer ${token}` } : {};
+
+            // Use server endpoint to convert to WebP and return file url
+            let uploadedUrl = '';
+            let mergedUser = null;
+            try {
+                const res = await fetch('/api/auth/upload-avatar', { method: 'POST', headers, body: formData, credentials: 'include' });
+                if (res.ok) {
+                    const data = await res.json().catch(() => ({}));
+                    uploadedUrl = (data && (data.avatarUrl || data.url)) ? (data.avatarUrl || data.url) : '';
+                    mergedUser = data.user || null;
+                }
+            } catch(_) {}
+
+            if (!uploadedUrl) {
+                alert('Upload thất bại. Máy chủ không trả về URL ảnh.');
+                return;
+            }
+
+            // Update UI with server URL (webp)
+            document.getElementById('profileAvatar').src = uploadedUrl;
+            const headerAvatar = document.getElementById('userAvatar');
+            if (headerAvatar) { headerAvatar.src = uploadedUrl; }
+
+            // Update localStorage user with server link
+            try {
+                const current = JSON.parse(localStorage.getItem('user') || '{}');
+                const nextUser = mergedUser ? mergedUser : { ...current, avatar: uploadedUrl };
+                nextUser.avatar = uploadedUrl;
+                localStorage.setItem('user', JSON.stringify(nextUser));
+            } catch(_) {}
+
+            alert('Đã lưu ảnh WebP lên hệ thống!');
+        } catch (e) {
+            console.error(e);
+            alert('Có lỗi xảy ra.');
+        } finally {
+            closeAvatarCropModal();
+        }
+    }
+
+    // Profile form submission
+    document.getElementById('profileForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        const formData = new FormData(this);
+        const profileData = {
+            firstName: formData.get('firstName'),
+            lastName: formData.get('lastName'),
+            email: formData.get('email'),
+            phone: formData.get('phone'),
+            address: formData.get('address'),
+            bio: formData.get('bio')
+        };
+        
+        try {
+            const user = JSON.parse(localStorage.getItem('user'));
+            if (user) {
+                // Update user data
+                Object.assign(user, profileData);
+                localStorage.setItem('user', JSON.stringify(user));
+                
+                // Update profile display
+                updateProfileDisplay(user);
+                
+                alert('Cập nhật thông tin thành công!');
+            }
+        } catch (error) {
+            console.error('Error updating profile:', error);
+            alert('Có lỗi xảy ra khi cập nhật thông tin!');
+        }
+    });
+
+    function updateProfileDisplay(userData) {
+        // Update profile name
+        const firstName = userData.firstName || userData.first_name || '';
+        const lastName = userData.lastName || userData.last_name || '';
+        const fullName = firstName && lastName ? `${firstName} ${lastName}` : (userData.name || userData.username || 'User');
+        
+        document.getElementById('profileName').textContent = fullName;
+        document.getElementById('profileEmail').textContent = userData.email || 'user@example.com';
+        
+        // Update form fields
+        document.getElementById('firstName').value = firstName;
+        document.getElementById('lastName').value = lastName;
+        document.getElementById('email').value = userData.email || '';
+        document.getElementById('phone').value = userData.phone || '';
+        document.getElementById('address').value = userData.address || '';
+        document.getElementById('bio').value = userData.bio || '';
+        
+        // Update avatar if exists
+        if (userData.avatar) {
+            document.getElementById('profileAvatar').src = (userData.profile && userData.profile.avatar) || userData.avatar;
+        }
+    }
+
+    // Load user data on page load
+    function loadUserData() {
+        try {
+            const user = JSON.parse(localStorage.getItem('user'));
+            if (user) {
+                updateProfileDisplay(user);
+            }
+        } catch (error) {
+            console.error('Error loading user data:', error);
+        }
+    }
+
+    // Initialize profile data
+    loadUserData();
+    </script>
+    
+
+    <!-- Floating Social Media Buttons -->
+    <div class="floating-social">
+        <a href="https://www.facebook.com/profile.php?id=61572981361471" target="_blank" rel="noopener" class="social-float-btn facebook" aria-label="Facebook">
+            <span class="icon">
+                <svg viewBox="0 0 24 24" width="24" height="24">
+                    <path d="M22 12.073C22 6.477 17.523 2 11.927 2 6.332 2 1.855 6.477 1.855 12.073c0 4.997 3.657 9.141 8.438 9.878v-6.987H7.898v-2.89h2.395V9.845c0-2.368 1.41-3.675 3.567-3.675 1.034 0 2.115.185 2.115.185v2.327h-1.19c-1.175 0-1.54.73-1.54 1.478v1.775h2.617l-.418 2.89h-2.199v6.987c4.78-.737 8.437-4.88 8.437-9.878z"/>
+                </svg>
+            </span>
+            <span class="tooltip">Theo dõi Facebook</span>
+        </a>
+        <a href="https://zalo.me/g/qlzzhf503" target="_blank" rel="noopener" class="social-float-btn zalo" aria-label="Zalo">
+            <span class="icon">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/91/Icon_of_Zalo.svg/2048px-Icon_of_Zalo.svg.png" alt="Zalo" width="24" height="24">
+            </span>
+            <span class="tooltip">Chat Zalo</span>
+        </a>
+    </div>
+</body>
+</html>

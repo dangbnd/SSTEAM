@@ -1,0 +1,8 @@
+/* =========================================================
+   Container — single definition, used everywhere
+   ========================================================= */
+
+.container {
+    width: min(var(--container-max), 100% - (var(--container-pad) * 2));
+    margin-inline: auto;
+}

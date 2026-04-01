@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tìm kiếm - Smart Steam Education</title>
+    <link rel="stylesheet" href="css/style.css">
+    
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-Q2ZMPLR4K7"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-Q2ZMPLR4K7');
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="/images/pasted-1757553903533.webp">
+    <link rel="icon" type="image/webp" href="/images/pasted-1757553903533.webp">
+    <link rel="apple-touch-icon" href="/images/pasted-1757553903533.webp">
+    <link rel="shortcut icon" href="/images/pasted-1757553903533.webp">
+    <link rel='stylesheet' href='/css/vi-font.css'>
+</head>
+<body>
+<!-- Search Section -->
+    <section class="search-section">
+        <div class="container">
+            <div class="search-header">
+                <h1 class="search-title">Tìm kiếm</h1>
+                <div class="search-form-container">
+                    <form class="search-form" onsubmit="performSearch(event)">
+                        <input 
+                            type="text" 
+                            id="main-search-input" 
+                            class="search-input" 
+                            placeholder="Nhập từ khóa tìm kiếm..."
+                            value=""
+                        >
+                        <button type="submit" class="search-submit-btn">🔍 Tìm kiếm</button>
+                    </form>
+                </div>
+            </div>
+            
+            <div class="search-results" id="search-results">
+                <div class="search-info">
+                    <p>Nhập từ khóa để bắt đầu tìm kiếm</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    
+<script>
+        // Get search query from URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const searchQuery = urlParams.get('q');
+        
+        if (searchQuery) {
+            document.getElementById('main-search-input').value = searchQuery;
+            document.getElementById('search-input').value = searchQuery;
+            performSearch();
+        }
+        
+        function performSearch(event) {
+            if (event) event.preventDefault();
+            
+            const query = document.getElementById('main-search-input').value.trim();
+            if (!query) return;
+            
+            // Update URL
+            const newUrl = `/search?q=${encodeURIComponent(query)}`;
+            window.history.pushState({}, '', newUrl);
+            
+            // Show loading
+            document.getElementById('search-results').innerHTML = `
+                <div class="search-loading">
+                    <p>🔍 Đang tìm kiếm: "${query}"...</p>
+                </div>
+            `;
+            
+            // TODO: Implement actual search functionality
+            setTimeout(() => {
+                document.getElementById('search-results').innerHTML = `
+                    <div class="search-info">
+                        <h3>Kết quả tìm kiếm cho: "${query}"</h3>
+                        <p>Chức năng tìm kiếm sẽ được cập nhật sau!</p>
+                        <p>Bạn có thể:</p>
+                        <ul>
+                            <li><a href="/products">Xem tất cả sản phẩm</a></li>
+                            <li><a href="/news">Xem tin tức</a></li>
+                            <li><a href="/tutorials">Xem bài giảng</a></li>
+                        </ul>
+                    </div>
+                `;
+            }, 1000);
+        }
+    </script>
+</body>
+</html>
