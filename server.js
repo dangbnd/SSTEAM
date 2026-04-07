@@ -19,6 +19,9 @@ const { registerSystemRoutes } = require('./src/routes/systemRoutes');
 const { createSharedLayout } = require('./src/layout/sharedLayout');
 const { createAuthMiddleware } = require('./src/middleware/auth');
 
+// ---------------------------------------------------------------------------
+// Env loader (for local .env file — production should set real env vars)
+// ---------------------------------------------------------------------------
 function loadEnvFile(envFilePath) {
     try {
         if (!fs.existsSync(envFilePath)) {
@@ -57,18 +60,54 @@ function loadEnvFile(envFilePath) {
 
 loadEnvFile(path.join(__dirname, '.env'));
 
+// ---------------------------------------------------------------------------
+// Environment detection
+// ---------------------------------------------------------------------------
+const IS_PRODUCTION = (process.env.NODE_ENV || '').toLowerCase() === 'production';
+
+// ---------------------------------------------------------------------------
+// Validate critical env vars in production
+// ---------------------------------------------------------------------------
+if (IS_PRODUCTION) {
+    const required = ['MONGO_URI', 'DB_NAME', 'JWT_SECRET'];
+    const missing = required.filter((key) => !process.env[key]);
+    if (missing.length > 0) {
+        console.error('=== FATAL: Missing required environment variables ===');
+        missing.forEach((key) => console.error(`  • ${key}`));
+        console.error('Set these in your Render dashboard under Environment.');
+        process.exit(1);
+    }
+}
+
 const app = express();
 const PORT = process.env.PORT || 8080;
 const PUBLIC_DIR = path.join(__dirname, 'public');
 
-// Multer configuration for file uploads
+// ---------------------------------------------------------------------------
+// Media root — persistent disk on Render, local fallback for dev
+// ---------------------------------------------------------------------------
+// On Render with a persistent disk mounted at e.g. /opt/render/media,
+// set MEDIA_ROOT=/opt/render/media. In development this defaults to
+// ./media at the project root, keeping public/ for code-only assets.
+const MEDIA_ROOT = process.env.MEDIA_ROOT || path.join(__dirname, 'media');
+
+// Ensure media sub-directories exist
+const MEDIA_IMAGES_DIR = path.join(MEDIA_ROOT, 'images');
+const MEDIA_UPLOADS_DIR = path.join(MEDIA_ROOT, 'uploads');
+const MEDIA_AVATARS_DIR = path.join(MEDIA_ROOT, 'images', 'avatars');
+
+[MEDIA_ROOT, MEDIA_IMAGES_DIR, MEDIA_UPLOADS_DIR, MEDIA_AVATARS_DIR].forEach((dir) => {
+    if (!fs.existsSync(dir)) {
+        fs.mkdirSync(dir, { recursive: true });
+    }
+});
+
+// ---------------------------------------------------------------------------
+// Multer — uploads go to persistent MEDIA_ROOT/uploads
+// ---------------------------------------------------------------------------
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
-        const uploadDir = path.join(PUBLIC_DIR, 'uploads');
-        if (!fs.existsSync(uploadDir)) {
-            fs.mkdirSync(uploadDir, { recursive: true });
-        }
-        cb(null, uploadDir);
+        cb(null, MEDIA_UPLOADS_DIR);
     },
     filename: function (req, file, cb) {
         const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1e9);
@@ -90,16 +129,28 @@ const upload = multer({
     },
 });
 
+// ---------------------------------------------------------------------------
 // MongoDB
+// ---------------------------------------------------------------------------
 const MONGO_URI = process.env.MONGO_URI || 'mongodb://localhost:27017/';
 const DB_NAME = process.env.DB_NAME || 'stem_steam_education';
 let db;
 
+// ---------------------------------------------------------------------------
 // Auth and OAuth
-const JWT_SECRET = process.env.JWT_SECRET || crypto.randomBytes(64).toString('hex');
-if (!process.env.JWT_SECRET) {
-    console.warn('WARNING: JWT_SECRET is not set. Using an ephemeral secret for this process only.');
+// ---------------------------------------------------------------------------
+let JWT_SECRET;
+if (process.env.JWT_SECRET) {
+    JWT_SECRET = process.env.JWT_SECRET;
+} else if (IS_PRODUCTION) {
+    // Should never reach here due to validation above, but extra safety
+    console.error('FATAL: JWT_SECRET is required in production');
+    process.exit(1);
+} else {
+    JWT_SECRET = crypto.randomBytes(64).toString('hex');
+    console.warn('WARNING: JWT_SECRET is not set. Using ephemeral secret (dev only).');
 }
+
 const GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID || '';
 const GOOGLE_CLIENT_SECRET = process.env.GOOGLE_CLIENT_SECRET || '';
 const GOOGLE_REDIRECT_URI = process.env.GOOGLE_REDIRECT_URI || `http://localhost:${PORT}/api/auth/google/callback`;
@@ -121,8 +172,15 @@ const { authenticateAdmin, authenticateUser } = createAuthMiddleware({
     getDb: () => db,
 });
 
+// ---------------------------------------------------------------------------
 // Middleware
+// ---------------------------------------------------------------------------
 app.use(compression());
+
+// Trust Render's reverse proxy so req.ip and X-Forwarded-For work correctly
+if (IS_PRODUCTION) {
+    app.set('trust proxy', 1);
+}
 
 app.use((req, res, next) => {
     try {
@@ -155,9 +213,18 @@ app.use((req, res, next) => {
     }
 });
 
+const allowedOrigins = [
+    'http://localhost:8080',
+    'http://127.0.0.1:8080',
+    'https://smartsteam.vn',
+];
+if (process.env.CORS_ORIGIN) {
+    allowedOrigins.push(...process.env.CORS_ORIGIN.split(',').map((s) => s.trim()));
+}
+
 app.use(
     cors({
-        origin: ['http://localhost:8080', 'http://127.0.0.1:8080', 'https://smartsteam.vn'],
+        origin: allowedOrigins,
         credentials: true,
         methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
         allowedHeaders: ['Content-Type', 'Authorization'],
@@ -167,19 +234,46 @@ app.use(
 app.use(express.json({ limit: '50mb' }));
 app.use(express.urlencoded({ limit: '50mb', extended: true }));
 
+// ---------------------------------------------------------------------------
+// Static serving
+// ---------------------------------------------------------------------------
+// Layout middleware for auto-injecting header/footer into HTML pages
 app.use(createHtmlAutoLayoutMiddleware());
+
+// Serve code/static assets from public/
 app.use(express.static(PUBLIC_DIR));
 
-// Shared helper for image conversion
+// Serve persistent media from MEDIA_ROOT under /media URL prefix
+app.use('/media', express.static(MEDIA_ROOT, { maxAge: IS_PRODUCTION ? '7d' : 0 }));
+
+// Backward compat: also serve /images and /uploads from MEDIA_ROOT so old
+// database URLs like /images/foo.webp still resolve after migration.
+app.use('/images', express.static(MEDIA_IMAGES_DIR, { maxAge: IS_PRODUCTION ? '7d' : 0 }));
+app.use('/uploads', express.static(MEDIA_UPLOADS_DIR, { maxAge: IS_PRODUCTION ? '7d' : 0 }));
+
+// ---------------------------------------------------------------------------
+// Health check — used by Render to verify the service is alive
+// ---------------------------------------------------------------------------
+app.get('/healthz', (req, res) => {
+    res.status(200).json({
+        status: 'ok',
+        uptime: process.uptime(),
+        timestamp: new Date().toISOString(),
+        db: db ? 'connected' : 'disconnected',
+    });
+});
+
+// ---------------------------------------------------------------------------
+// Image conversion helper — writes to persistent MEDIA_ROOT
+// ---------------------------------------------------------------------------
 async function convertImageUrlToWebp(url) {
-    const imagesDir = path.join(PUBLIC_DIR, 'images');
-    if (!fs.existsSync(imagesDir)) {
-        fs.mkdirSync(imagesDir, { recursive: true });
+    if (!fs.existsSync(MEDIA_IMAGES_DIR)) {
+        fs.mkdirSync(MEDIA_IMAGES_DIR, { recursive: true });
     }
 
     const rawName = path.parse((url || '').split('?')[0]).name.replace(/[^a-zA-Z0-9-_]/g, '') || 'image';
     const finalFilename = `${rawName}-${Date.now()}.webp`;
-    const targetPath = path.join(imagesDir, finalFilename);
+    const targetPath = path.join(MEDIA_IMAGES_DIR, finalFilename);
 
     const isRemote = /^https?:\/\//i.test(url || '');
     const isData = /^data:image\//i.test(url || '');
@@ -198,7 +292,10 @@ async function convertImageUrlToWebp(url) {
         const buffer = Buffer.from(arrayBuf);
         await sharp(buffer).rotate().toFormat('webp', { quality: 80 }).toFile(targetPath);
     } else if (isLocalPublic) {
-        const localPath = path.join(PUBLIC_DIR, url.replace(/^\//, ''));
+        // Check MEDIA_ROOT first, then PUBLIC_DIR for legacy images
+        const mediaPath = path.join(MEDIA_ROOT, url.replace(/^\//, ''));
+        const publicPath = path.join(PUBLIC_DIR, url.replace(/^\//, ''));
+        const localPath = fs.existsSync(mediaPath) ? mediaPath : publicPath;
         if (!fs.existsSync(localPath)) {
             throw new Error('Local source image not found');
         }
@@ -214,7 +311,9 @@ async function convertImageUrlToWebp(url) {
     return `/images/${finalFilename}`;
 }
 
+// ---------------------------------------------------------------------------
 // Route modules
+// ---------------------------------------------------------------------------
 registerUserAuthRoutes(app, {
     ObjectId,
     jwt,
@@ -225,6 +324,7 @@ registerUserAuthRoutes(app, {
     fs,
     path,
     publicDir: PUBLIC_DIR,
+    mediaRoot: MEDIA_ROOT,
     googleClient,
     GOOGLE_CLIENT_ID,
     authenticateUser,
@@ -246,6 +346,7 @@ registerSystemRoutes(app, {
     authenticateUser,
     getDb: () => db,
     publicDir: PUBLIC_DIR,
+    mediaRoot: MEDIA_ROOT,
     convertImageUrlToWebp,
 });
 
@@ -270,7 +371,7 @@ app.get('/:slug', async (req, res) => {
         if (
             req.url.startsWith('/api/') ||
             req.url.startsWith('/news/') ||
-            ['admin', 'admin-login', 'products', 'news', 'tutorials', 'courses', 'projects', 'about', 'contact', 'resources', 'order', 'orders', 'cart', 'search', 'login', 'register', 'profile', 'forgot-password', 'terms', 'privacy', 'css', 'js', 'images', 'uploads', 'layout'].includes(slug) ||
+            ['admin', 'admin-login', 'products', 'news', 'tutorials', 'courses', 'projects', 'about', 'contact', 'resources', 'order', 'orders', 'cart', 'search', 'login', 'register', 'profile', 'forgot-password', 'terms', 'privacy', 'css', 'js', 'images', 'uploads', 'media', 'layout'].includes(slug) ||
             slug.includes('.') ||
             slug === ''
         ) {
@@ -293,17 +394,28 @@ app.get('/:slug', async (req, res) => {
     }
 });
 
+// ---------------------------------------------------------------------------
+// Server startup
+// ---------------------------------------------------------------------------
 async function startServer() {
     try {
         console.log('=== STARTING SERVER ===');
         console.log('Timestamp:', new Date().toISOString());
+        console.log('Environment:', IS_PRODUCTION ? 'production' : 'development');
+        console.log('Media root:', MEDIA_ROOT);
         console.log('Connecting to MongoDB...');
-        console.log('MongoDB URI:', MONGO_URI);
+
+        // Never log the full URI in production (it contains credentials)
+        if (IS_PRODUCTION) {
+            console.log('MongoDB URI:', MONGO_URI.replace(/\/\/[^@]+@/, '//<credentials>@'));
+        } else {
+            console.log('MongoDB URI:', MONGO_URI);
+        }
         console.log('Database name:', DB_NAME);
 
         const client = new MongoClient(MONGO_URI, {
-            serverSelectionTimeoutMS: 5000,
-            connectTimeoutMS: 10000,
+            serverSelectionTimeoutMS: IS_PRODUCTION ? 15000 : 5000,
+            connectTimeoutMS: IS_PRODUCTION ? 20000 : 10000,
         });
 
         await client.connect();
@@ -317,14 +429,38 @@ async function startServer() {
         const collections = await db.listCollections().toArray();
         console.log('Available collections:', collections.map((c) => c.name));
 
-        app.listen(PORT, () => {
+        app.listen(PORT, '0.0.0.0', () => {
             console.log('=== SERVER STARTED SUCCESSFULLY ===');
             console.log('Server running on port:', PORT);
-            console.log('Local URL: http://localhost:' + PORT);
-            console.log('Network URL: http://0.0.0.0:' + PORT);
-            console.log('Admin panel: http://localhost:' + PORT + '/admin');
-            console.log('Environment:', process.env.NODE_ENV || 'development');
+            if (!IS_PRODUCTION) {
+                console.log('Local URL: http://localhost:' + PORT);
+                console.log('Admin panel: http://localhost:' + PORT + '/admin');
+            }
+            console.log('Health check: /healthz');
             console.log('=== SERVER READY ===');
+
+            // -----------------------------------------------------------------
+            // Keep-alive self-ping — prevents Render free tier from spinning
+            // down the service after 15 minutes of inactivity.
+            // Pings /healthz every 14 minutes (only in production).
+            // -----------------------------------------------------------------
+            if (IS_PRODUCTION) {
+                const KEEP_ALIVE_URL = process.env.RENDER_EXTERNAL_URL
+                    ? `${process.env.RENDER_EXTERNAL_URL}/healthz`
+                    : `https://ssteam.onrender.com/healthz`;
+                const KEEP_ALIVE_INTERVAL_MS = 14 * 60 * 1000; // 14 minutes
+
+                setInterval(async () => {
+                    try {
+                        const res = await fetch(KEEP_ALIVE_URL);
+                        console.log(`[keep-alive] pinged ${KEEP_ALIVE_URL} — ${res.status}`);
+                    } catch (err) {
+                        console.warn('[keep-alive] ping failed:', err.message);
+                    }
+                }, KEEP_ALIVE_INTERVAL_MS);
+
+                console.log(`[keep-alive] self-ping enabled every ${KEEP_ALIVE_INTERVAL_MS / 60000} min → ${KEEP_ALIVE_URL}`);
+            }
         });
     } catch (error) {
         console.error('=== SERVER STARTUP FAILED ===');

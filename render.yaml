@@ -1,0 +1,82 @@
+# render.yaml — Render Blueprint for SSTEAM
+# Docs: https://render.com/docs/blueprint-spec
+#
+# Usage:
+#   1. Push this file to your repo
+#   2. In Render Dashboard → New → Blueprint → select this repo
+#   3. Render will auto-detect this file and create the service
+#   4. Fill in the env var values in the Render dashboard
+
+services:
+  - type: web
+    name: ssteam-web
+    runtime: node
+    region: singapore  # Change to your preferred region
+    plan: starter      # Paid plan — required for persistent disk
+
+    # Build
+    buildCommand: npm install
+    startCommand: npm start
+
+    # Health check — Render pings this to verify the service is alive
+    healthCheckPath: /healthz
+
+    # Persistent disk for uploaded/generated media
+    disk:
+      name: ssteam-media
+      mountPath: /opt/render/media
+      sizeGB: 1  # Adjust based on expected media volume
+
+    # Environment variables
+    # Values marked "sync: false" must be set manually in the dashboard
+    envVars:
+      - key: NODE_ENV
+        value: production
+
+      - key: MONGO_URI
+        sync: false  # Set in dashboard — MongoDB Atlas connection string
+
+      - key: DB_NAME
+        value: stem_steam_education
+
+      - key: JWT_SECRET
+        generateValue: true  # Render generates a random value
+
+      - key: MEDIA_ROOT
+        value: /opt/render/media
+
+      - key: ADMIN_USERNAME
+        sync: false  # Set in dashboard
+
+      - key: ADMIN_PASSWORD
+        sync: false  # Set in dashboard
+
+      - key: RENDER_EXTERNAL_URL
+        sync: false  # Auto-set by Render, or manually set to https://ssteam.onrender.com
+
+      - key: CORS_ORIGIN
+        sync: false  # e.g. https://smartsteam.vn
+
+      - key: GOOGLE_CLIENT_ID
+        sync: false
+
+      - key: GOOGLE_CLIENT_SECRET
+        sync: false
+
+      - key: GOOGLE_REDIRECT_URI
+        sync: false  # e.g. https://ssteam-web.onrender.com/api/auth/google/callback
+
+      - key: MAIL_SERVICE
+        sync: false
+
+      - key: MAIL_USER
+        sync: false
+
+      - key: MAIL_PASS
+        sync: false
+
+      - key: MAIL_FROM
+        sync: false
+
+      - key: CONTACT_EMAIL_TO
+        sync: false
