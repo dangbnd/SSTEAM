@@ -353,7 +353,8 @@ class ProductDetailManager {
 
             if (hasRawStock && Number.isFinite(numericStock)) {
                 if (numericStock <= 0) return { key: 'out', text: 'Hết hàng' };
-                if (numericStock <= 10) return { key: 'low', text: `Chỉ còn ${numericStock} sản phẩm` };
+                if (numericStock <= 5) return { key: 'critical', text: `${numericStock} sản phẩm` };
+                if (numericStock <= 10) return { key: 'low', text: `${numericStock} sản phẩm` };
                 return { key: 'in', text: 'Còn hàng' };
             }
 
@@ -392,6 +393,9 @@ class ProductDetailManager {
             }
             if (state.key === 'low') {
                 return `<span class="stock-inline low-stock">${state.text}</span>`;
+            }
+            if (state.key === 'critical') {
+                return `<span class="stock-inline critical-stock">${state.text}</span>`;
             }
             return `<span class="stock-inline out-stock">${state.text}</span>`;
         } catch (error) {
@@ -531,9 +535,12 @@ class ProductDetailManager {
             if (stock > 10) {
                 statusClass = 'stock-in';
                 statusText = 'Còn hàng';
-            } else if (stock > 0) {
+            } else if (stock > 5) {
                 statusClass = 'stock-low';
-                statusText = `Chỉ còn ${stock} sản phẩm`;
+                statusText = `${stock} sản phẩm`;
+            } else if (stock > 0) {
+                statusClass = 'stock-critical';
+                statusText = `${stock} sản phẩm`;
             }
 
             return `<div class="stock-status ${statusClass}">${statusText}</div>`;

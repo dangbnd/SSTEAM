@@ -33,7 +33,7 @@ function normalizeSlide(item, idx){
 }
 
 function getFallbackSlides(){
-    const fallbackImage = 'https://smartsteam.vn/images/pasted-1757553903533.webp';
+    const fallbackImage = '/images/Logo-moi.png';
     return [
         { image: fallbackImage, title: 'Smart Steam', subtitle: 'Nền tảng giáo dục STEAM hàng đầu', buttonText: 'Khám phá', buttonLink: '/products' },
         { image: fallbackImage, title: 'Học STEAM dễ dàng', subtitle: 'Khóa học, sản phẩm và cộng đồng', buttonText: 'Xem khóa học', buttonLink: '/tutorials' }

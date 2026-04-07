@@ -14,8 +14,13 @@ function registerSystemRoutes(app, deps) {
         authenticateUser,
         getDb,
         publicDir,
+        mediaRoot,
         convertImageUrlToWebp,
     } = deps;
+
+    // Resolve media directories — persistent across deploys
+    const mediaImagesDir = path.join(mediaRoot || publicDir, 'images');
+    const mediaUploadsDir = path.join(mediaRoot || publicDir, 'uploads');
 
     function getDbOrRespond(res) {
         const db = getDb();
@@ -650,8 +655,8 @@ function registerSystemRoutes(app, deps) {
         return res.sendFile(path.join(publicDir, 'site.webmanifest'));
     });
 
-    app.use('/uploads', express.static(path.join(publicDir, 'uploads')));
-    app.use('/images', express.static(path.join(publicDir, 'images')));
+    // Static serving for media now handled in server.js via MEDIA_ROOT
+    // These lines kept as no-ops to avoid breaking if called before server.js mounts.
 
     // Image library
     app.post('/api/admin/images/upload', authenticateAdmin, upload.single('image'), async (req, res) => {
@@ -660,16 +665,15 @@ function registerSystemRoutes(app, deps) {
                 return res.status(400).json({ error: 'No file uploaded' });
             }
 
-            const imagesDir = path.join(publicDir, 'images');
-            if (!fs.existsSync(imagesDir)) {
-                fs.mkdirSync(imagesDir, { recursive: true });
+            if (!fs.existsSync(mediaImagesDir)) {
+                fs.mkdirSync(mediaImagesDir, { recursive: true });
             }
 
             const providedName = (req.body && req.body.filename ? String(req.body.filename) : '').trim();
             const safeProvided = providedName.replace(/[^a-zA-Z0-9-_]/g, '');
             const baseName = safeProvided || path.parse(req.file.originalname).name.replace(/[^a-zA-Z0-9-_]/g, '') || 'image';
             const finalFilename = `${baseName}-${Date.now()}.webp`;
-            const targetPath = path.join(imagesDir, finalFilename);
+            const targetPath = path.join(mediaImagesDir, finalFilename);
 
             await sharp(req.file.path).rotate().toFormat('webp', { quality: 80 }).toFile(targetPath);
             try {
@@ -708,11 +712,10 @@ function registerSystemRoutes(app, deps) {
 
     app.get('/api/admin/images', authenticateAdmin, async (req, res) => {
         try {
-            const imagesDir = path.join(publicDir, 'images');
-            if (!fs.existsSync(imagesDir)) {
+            if (!fs.existsSync(mediaImagesDir)) {
                 return res.json([]);
             }
-            const files = fs.readdirSync(imagesDir)
+            const files = fs.readdirSync(mediaImagesDir)
                 .filter((f) => f.toLowerCase().endsWith('.webp'))
                 .map((f) => ({ filename: f, url: `/images/${f}` }))
                 .sort((a, b) => b.filename.localeCompare(a.filename));
@@ -725,7 +728,7 @@ function registerSystemRoutes(app, deps) {
     app.delete('/api/admin/images/:filename', authenticateAdmin, async (req, res) => {
         try {
             const filename = req.params.filename;
-            const imagesRoot = path.resolve(path.join(publicDir, 'images'));
+            const imagesRoot = path.resolve(mediaImagesDir);
             const filePath = path.resolve(imagesRoot, filename);
             if (!filePath.startsWith(imagesRoot + path.sep) && filePath !== imagesRoot) {
                 return res.status(400).json({ error: 'Invalid path' });

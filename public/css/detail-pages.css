@@ -295,7 +295,12 @@ body.product-detail .stock-inline.in-stock {
 }
 
 body.product-detail .stock-inline.low-stock {
-    color: #b45309 !important;
+    color: #ea580c !important;
+}
+
+body.product-detail .stock-inline.critical-stock {
+    color: #dc2626 !important;
+    font-weight: 700 !important;
 }
 
 body.product-detail .stock-inline.out-stock {

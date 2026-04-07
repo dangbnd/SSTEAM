@@ -354,7 +354,12 @@
 }
 
 .stock-status.stock-low {
-    color: #d97706; /* Amber/Orange */
+    color: #ea580c; /* Orange — 6-10 products */
+}
+
+.stock-status.stock-critical {
+    color: #dc2626; /* Red — 1-5 products */
+    font-weight: 800;
 }
 
 .stock-status.stock-out {

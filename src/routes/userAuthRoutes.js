@@ -15,6 +15,7 @@ function registerUserAuthRoutes(app, deps) {
         fs,
         path,
         publicDir,
+        mediaRoot,
         googleClient,
         GOOGLE_CLIENT_ID,
         authenticateUser,
@@ -621,8 +622,8 @@ function registerUserAuthRoutes(app, deps) {
     
             const userId = req.user.userId;
     
-            // Ensure avatars directory exists
-            const avatarsDir = path.join(publicDir, 'images', 'avatars');
+            // Ensure avatars directory exists — write to persistent mediaRoot � write to persistent mediaRoot
+            const avatarsDir = path.join(mediaRoot, 'images', 'avatars');
             if (!fs.existsSync(avatarsDir)) {
                 fs.mkdirSync(avatarsDir, { recursive: true });
             }
